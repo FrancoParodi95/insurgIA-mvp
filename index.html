@@ -250,23 +250,17 @@ textarea.fi{resize:none;}
     <div style="display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:14px;">
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-          <div class="ctitle" style="margin:0;">Primas cerradas por mes</div>
-          <select class="fi" style="width:auto;padding:4px 8px;font-size:11px;"><option>Últimos 12 meses</option><option>2025</option></select>
+          <div>
+            <div class="ctitle" style="margin:0;" id="dash-chart-title">Primas cerradas por mes</div>
+            <div style="font-size:10px;color:var(--g5);margin-top:2px;" id="dash-chart-sub">Últimos 12 meses · Abr 2025 – Abr 2026</div>
+          </div>
+          <select class="fi" style="width:auto;padding:4px 8px;font-size:11px;" onchange="updateDashChart(this.value)">
+            <option value="12m">Últimos 12 meses</option>
+            <option value="ytd">YTD 2026 vs YTD 2025</option>
+            <option value="2025">Año completo 2025</option>
+          </select>
         </div>
-        <div class="barchart">
-          <div class="bar-col"><div class="bar" style="height:38%;background:rgba(37,99,235,.2)"></div><div class="bar-lb">May</div></div>
-          <div class="bar-col"><div class="bar" style="height:44%;background:rgba(37,99,235,.25)"></div><div class="bar-lb">Jun</div></div>
-          <div class="bar-col"><div class="bar" style="height:52%;background:rgba(37,99,235,.3)"></div><div class="bar-lb">Jul</div></div>
-          <div class="bar-col"><div class="bar" style="height:48%;background:rgba(37,99,235,.32)"></div><div class="bar-lb">Ago</div></div>
-          <div class="bar-col"><div class="bar" style="height:60%;background:rgba(37,99,235,.38)"></div><div class="bar-lb">Sep</div></div>
-          <div class="bar-col"><div class="bar" style="height:55%;background:rgba(37,99,235,.4)"></div><div class="bar-lb">Oct</div></div>
-          <div class="bar-col"><div class="bar" style="height:64%;background:rgba(37,99,235,.45)"></div><div class="bar-lb">Nov</div></div>
-          <div class="bar-col"><div class="bar" style="height:70%;background:rgba(37,99,235,.5)"></div><div class="bar-lb">Dic</div></div>
-          <div class="bar-col"><div class="bar" style="height:62%;background:rgba(37,99,235,.52)"></div><div class="bar-lb">Ene</div></div>
-          <div class="bar-col"><div class="bar" style="height:74%;background:rgba(37,99,235,.58)"></div><div class="bar-lb">Feb</div></div>
-          <div class="bar-col"><div class="bar" style="height:68%;background:rgba(37,99,235,.62)"></div><div class="bar-lb">Mar</div></div>
-          <div class="bar-col" style="position:relative;"><div class="bar" style="height:78%;background:var(--blue2);border:2px solid var(--sky)"></div><div class="bar-lb" style="color:var(--sky);font-weight:700;">Abr</div><div style="position:absolute;top:16%;left:50%;transform:translateX(-50%);background:#04091A;color:var(--sky);font-size:9px;padding:2px 5px;border-radius:4px;border:1px solid rgba(96,165,250,.3);white-space:nowrap;">S/412K</div></div>
-        </div>
+        <div id="dash-barchart"><!-- rendered by JS --></div>
       </div>
       <div class="card">
         <div class="ctitle">Distribución por ramo</div>
@@ -329,36 +323,40 @@ textarea.fi{resize:none;}
 
   <!-- ██ VISTA LÍDER ██ -->
   <div class="screen" id="s-lider">
-    <div class="kgrid">
-      <div class="kpi" style="--kc:var(--sky)"><div class="kl">Prima total equipo</div><div class="kv">S/1.2M</div><div class="ks up">+22% vs año anterior</div></div>
-      <div class="kpi" style="--kc:#C4B5FD"><div class="kl">Comisiones equipo</div><div class="kv">S/144K</div><div class="ks up">Abr 2026 acumulado</div></div>
-      <div class="kpi" style="--kc:#FCA5A5"><div class="kl">Pólizas por vencer</div><div class="kv">18</div><div class="ks">En todos los ejecutivos</div></div>
-      <div class="kpi" style="--kc:#6EE7B7"><div class="kl">Tasa de renovación</div><div class="kv">87%</div><div class="ks up">+5pp vs año anterior</div></div>
+    <!-- Filter bar -->
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 16px;">
+      <span style="font-size:11px;color:var(--g4);font-weight:700;white-space:nowrap;">Período:</span>
+      <select class="fi" style="width:auto;padding:5px 10px;font-size:12px;" id="lider-periodo" onchange="updateLider()">
+        <option value="abr26">Abril 2026</option>
+        <option value="mar26">Marzo 2026</option>
+        <option value="feb26">Febrero 2026</option>
+        <option value="ene26">Enero 2026</option>
+        <option value="ytd26">YTD 2026 vs YTD 2025</option>
+        <option value="q126">Q1 2026</option>
+        <option value="q425">Q4 2025</option>
+      </select>
+      <span id="lider-period-label" style="font-size:11px;color:var(--sky);font-weight:700;margin-left:4px;">Abril 2026</span>
+      <span style="font-size:11px;color:var(--g5);margin-left:6px;" id="lider-compare-label">Comparando vs. Marzo 2026 y Abril 2025</span>
     </div>
+    <!-- KPI cards -->
+    <div class="kgrid" id="lider-kpis"><!-- rendered by JS --></div>
     <!-- IA Impact líder -->
     <div style="background:linear-gradient(135deg,#0B1E3D,#0A1628);border:1px solid rgba(124,58,237,.3);border-radius:12px;padding:14px 18px;margin-bottom:14px;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
         <div class="ia-badge">✦ InsurgIA · Impacto IA — Equipo completo</div>
         <span style="font-size:11px;color:var(--g5);">Valor generado exclusivamente por recomendaciones de IA</span>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
-        <div style="background:rgba(0,0,0,.2);border-radius:8px;padding:11px 13px;"><div style="font-size:10px;color:var(--g4);margin-bottom:4px;">Prima adicional (IA)</div><div style="font-size:20px;font-weight:800;color:#C4B5FD;">S/ 187K</div><div style="font-size:10px;color:var(--green2);">vs. S/0 sin InsurgIA</div></div>
-        <div style="background:rgba(0,0,0,.2);border-radius:8px;padding:11px 13px;"><div style="font-size:10px;color:var(--g4);margin-bottom:4px;">Comisión adicional (IA)</div><div style="font-size:20px;font-weight:800;color:#C4B5FD;">S/ 22,440</div><div style="font-size:10px;color:var(--green2);">+15.6% de comisión total</div></div>
-        <div style="background:rgba(0,0,0,.2);border-radius:8px;padding:11px 13px;"><div style="font-size:10px;color:var(--g4);margin-bottom:4px;">Pólizas cruzadas (IA)</div><div style="font-size:20px;font-weight:800;color:var(--sky);">9</div><div style="font-size:10px;color:var(--green2);">Nuevas sin prospección</div></div>
-        <div style="background:rgba(0,0,0,.2);border-radius:8px;padding:11px 13px;"><div style="font-size:10px;color:var(--g4);margin-bottom:4px;">ROI InsurgIA</div><div style="font-size:20px;font-weight:800;color:var(--amber2);">18.7x</div><div style="font-size:10px;color:var(--amber2);">vs. costo mensual</div></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;" id="lider-ia-kpis">
+        <!-- rendered by JS -->
       </div>
     </div>
     <div class="card" style="margin-bottom:14px;">
-      <div class="ctitle">Rendimiento por ejecutivo — Abril 2026</div>
-      <table class="tbl">
-        <thead><tr><th>Ejecutivo</th><th style="text-align:right">Prima cerrada</th><th style="text-align:right">Comisiones</th><th style="text-align:right;color:#C4B5FD;">Prima IA</th><th style="text-align:right;color:#C4B5FD;">Comisión IA</th><th style="text-align:center">Por vencer</th><th style="text-align:center">Estado</th></tr></thead>
-        <tbody>
-          <tr><td><div style="font-weight:700;color:#fff;">Carlos Mendoza</div><div style="font-size:10px;color:var(--g4);">Ejecutivo Sr.</div></td><td style="text-align:right;font-weight:700;color:#fff;">S/ 412,000</td><td style="text-align:right;color:#C4B5FD;font-weight:700;">S/ 49,440</td><td style="text-align:right;color:#C4B5FD;font-weight:700;">S/ 67K</td><td style="text-align:right;color:var(--green2);font-weight:700;">S/ 8,040</td><td style="text-align:center;"><span class="pill pa">3</span></td><td style="text-align:center;"><span class="pill pg">En meta</span></td></tr>
-          <tr><td><div style="font-weight:700;color:#fff;">María Fernández</div><div style="font-size:10px;color:var(--g4);">Ejecutivo Sr.</div></td><td style="text-align:right;font-weight:700;color:#fff;">S/ 380,000</td><td style="text-align:right;color:#C4B5FD;font-weight:700;">S/ 45,600</td><td style="text-align:right;color:#C4B5FD;font-weight:700;">S/ 58K</td><td style="text-align:right;color:var(--green2);font-weight:700;">S/ 6,960</td><td style="text-align:center;"><span class="pill pr">5</span></td><td style="text-align:center;"><span class="pill pa">En riesgo</span></td></tr>
-          <tr><td><div style="font-weight:700;color:#fff;">Jorge Paredes</div><div style="font-size:10px;color:var(--g4);">Ejecutivo Jr.</div></td><td style="text-align:right;font-weight:700;color:#fff;">S/ 215,000</td><td style="text-align:right;color:#C4B5FD;font-weight:700;">S/ 25,800</td><td style="text-align:right;color:#C4B5FD;font-weight:700;">S/ 38K</td><td style="text-align:right;color:var(--green2);font-weight:700;">S/ 4,560</td><td style="text-align:center;"><span class="pill pa">4</span></td><td style="text-align:center;"><span class="pill pb">En proceso</span></td></tr>
-          <tr><td><div style="font-weight:700;color:#fff;">Ana Torres</div><div style="font-size:10px;color:var(--g4);">Ejecutivo Jr.</div></td><td style="text-align:right;font-weight:700;color:#fff;">S/ 198,000</td><td style="text-align:right;color:#C4B5FD;font-weight:700;">S/ 23,760</td><td style="text-align:right;color:#C4B5FD;font-weight:700;">S/ 24K</td><td style="text-align:right;color:var(--green2);font-weight:700;">S/ 2,880</td><td style="text-align:center;"><span class="pill pa">6</span></td><td style="text-align:center;"><span class="pill pr">Alerta</span></td></tr>
-        </tbody>
-      </table>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:13px;">
+        <div class="ctitle" style="margin:0;" id="lider-table-title">Rendimiento por ejecutivo — Abril 2026</div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="tbl" id="lider-exec-table"><!-- rendered by JS --></table>
+      </div>
     </div>
   </div>
 
@@ -386,25 +384,85 @@ textarea.fi{resize:none;}
 
   <!-- ██ COTIZACIONES ██ -->
   <div class="screen" id="s-cotizaciones">
-    <div class="fbar">
-      <input type="text" class="fi" id="cot-search" placeholder="Buscar cliente, póliza o ramo..." oninput="filterCotizaciones()"/>
-      <select class="fi" id="cot-estado" onchange="filterCotizaciones()"><option value="">Todos los estados</option><option>Emitida</option><option>Comparando</option><option>Validación</option><option>Despacho</option></select>
-      <select class="fi" id="cot-ramo" onchange="filterCotizaciones()"><option value="">Todos los ramos</option><option>Multirriesgo</option><option>Flota vehicular</option><option>Salud grupal</option><option>3D</option><option>RC</option><option>Cyber</option></select>
-      <select class="fi" id="cot-ejec" onchange="filterCotizaciones()"><option value="">Todos los ejecutivos</option><option>C. Mendoza</option><option>M. Fernández</option><option>J. Paredes</option><option>A. Torres</option></select>
-      <button class="btn bp" onclick="go('nueva')">+ Nueva</button>
+    <div id="cot-list-view">
+      <div class="fbar">
+        <input type="text" class="fi" id="cot-search" placeholder="Buscar cliente, póliza o ramo..." oninput="filterCotizaciones()"/>
+        <select class="fi" id="cot-estado" onchange="filterCotizaciones()"><option value="">Todos los estados</option><option>Emitida</option><option>Comparando</option><option>Validación</option><option>Despacho</option></select>
+        <select class="fi" id="cot-ramo" onchange="filterCotizaciones()"><option value="">Todos los ramos</option><option>Multirriesgo</option><option>Flota vehicular</option><option>Salud grupal</option><option>3D</option><option>RC</option><option>Cyber</option></select>
+        <select class="fi" id="cot-ejec" onchange="filterCotizaciones()"><option value="">Todos los ejecutivos</option><option>C. Mendoza</option><option>M. Fernández</option><option>J. Paredes</option><option>A. Torres</option></select>
+        <button class="btn bp" onclick="go('nueva')">+ Nueva</button>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <table class="tbl" id="tbl-cotizaciones">
+          <thead><tr><th>Cliente</th><th>Ramo</th><th>Aseguradora</th><th style="text-align:right">Prima</th><th style="text-align:right">Comisión</th><th style="text-align:center">Vencimiento</th><th style="text-align:center">Etapa</th><th style="text-align:center">Acción</th></tr></thead>
+          <tbody>
+            <tr data-cliente="Minera Los Andes SAC" data-ramo="Multirriesgo" data-ejec="C. Mendoza" data-estado="Validación"><td onclick="go('comparador')" style="cursor:pointer;"><div style="font-weight:700;color:#fff;">Minera Los Andes SAC</div><div style="font-size:10px;color:var(--g4);">C. Mendoza</div></td><td>Multirriesgo</td><td>Rímac</td><td style="text-align:right;font-weight:700;">S/ 36,250</td><td style="text-align:right;color:var(--green2);font-weight:700;">S/ 4,350</td><td style="text-align:center;"><span class="pill pr">5 días</span></td><td style="text-align:center;"><span class="pill pa">Validación</span></td><td style="text-align:center;display:flex;gap:4px;justify-content:center;"><button class="btn bp btn-xs" onclick="openCotizacionDetail('ml-mr','Minera Los Andes SAC','Multirriesgo')">Administrar</button></td></tr>
+            <tr data-cliente="Transportes Rápidos SA" data-ramo="Flota vehicular" data-ejec="C. Mendoza" data-estado="Emitida"><td><div style="font-weight:700;color:#fff;">Transportes Rápidos SA</div><div style="font-size:10px;color:var(--g4);">C. Mendoza</div></td><td>Flota vehicular</td><td>Mapfre</td><td style="text-align:right;font-weight:700;">S/ 28,900</td><td style="text-align:right;color:var(--green2);font-weight:700;">S/ 3,468</td><td style="text-align:center;"><span class="pill pa">12 días</span></td><td style="text-align:center;"><span class="pill pg">Emitida</span></td><td style="text-align:center;"><button class="btn bg btn-xs" onclick="openCotizacionDetail('tr-fl','Transportes Rápidos SA','Flota vehicular')">Administrar</button></td></tr>
+            <tr data-cliente="Grupo Palmas SAC" data-ramo="Multirriesgo" data-ejec="C. Mendoza" data-estado="Comparando"><td><div style="font-weight:700;color:#fff;">Grupo Palmas SAC</div><div style="font-size:10px;color:var(--g4);">C. Mendoza</div></td><td>Multirriesgo</td><td>—</td><td style="text-align:right;color:var(--g4);">Pendiente</td><td style="text-align:right;color:var(--g4);">—</td><td style="text-align:center;color:var(--g4);">—</td><td style="text-align:center;"><span class="pill pa">Comparando</span></td><td style="text-align:center;display:flex;gap:4px;justify-content:center;"><button class="btn bp btn-xs" onclick="openCotizacionDetail('gp-mr','Grupo Palmas SAC','Multirriesgo')">Administrar</button><button class="btn bg btn-xs" onclick="go('comparador')">Ver</button></td></tr>
+            <tr data-cliente="Clínica Santa María EIRL" data-ramo="Salud grupal" data-ejec="M. Fernández" data-estado="Emitida"><td><div style="font-weight:700;color:#fff;">Clínica Santa María EIRL</div><div style="font-size:10px;color:var(--g4);">M. Fernández</div></td><td>Salud grupal</td><td>Pacífico</td><td style="text-align:right;font-weight:700;">S/ 67,500</td><td style="text-align:right;color:var(--green2);font-weight:700;">S/ 8,775</td><td style="text-align:center;"><span class="pill pa">18 días</span></td><td style="text-align:center;"><span class="pill pg">Emitida</span></td><td style="text-align:center;"><button class="btn bg btn-xs" onclick="openCotizacionDetail('cs-sg','Clínica Santa María EIRL','Salud grupal')">Administrar</button></td></tr>
+            <tr data-cliente="Textil Andina SAC" data-ramo="Multirriesgo" data-ejec="J. Paredes" data-estado="Despacho"><td><div style="font-weight:700;color:#fff;">Textil Andina SAC</div><div style="font-size:10px;color:var(--g4);">J. Paredes</div></td><td>Multirriesgo</td><td>La Positiva</td><td style="text-align:right;font-weight:700;">S/ 18,400</td><td style="text-align:right;color:var(--green2);font-weight:700;">S/ 2,208</td><td style="text-align:center;color:var(--g4);">Recién emitida</td><td style="text-align:center;"><span class="pill pb">Despacho</span></td><td style="text-align:center;display:flex;gap:4px;justify-content:center;"><button class="btn bgreen btn-xs" onclick="go('despacho')">Despachar</button><button class="btn bg btn-xs" onclick="openCotizacionDetail('ta-mr','Textil Andina SAC','Multirriesgo')">Administrar</button></td></tr>
+            <tr data-cliente="Smart Cast Trading SAC" data-ramo="Multirriesgo" data-ejec="A. Torres" data-estado="Emitida"><td><div style="font-weight:700;color:#fff;">Smart Cast Trading SAC</div><div style="font-size:10px;color:var(--g4);">A. Torres</div></td><td>Multirriesgo</td><td>La Positiva</td><td style="text-align:right;font-weight:700;">S/ 13,815</td><td style="text-align:right;color:var(--green2);font-weight:700;">S/ 1,341</td><td style="text-align:center;"><span class="pill pg">Feb 2027</span></td><td style="text-align:center;"><span class="pill pg">Emitida</span></td><td style="text-align:center;"><button class="btn bg btn-xs" onclick="openCotizacionDetail('sc-mr','Smart Cast Trading SAC','Multirriesgo')">Administrar</button></td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="card" style="padding:0;overflow:hidden;">
-      <table class="tbl" id="tbl-cotizaciones">
-        <thead><tr><th>Cliente</th><th>Ramo</th><th>Aseguradora</th><th style="text-align:right">Prima</th><th style="text-align:right">Comisión</th><th style="text-align:center">Vencimiento</th><th style="text-align:center">Etapa</th><th style="text-align:center">Acción</th></tr></thead>
-        <tbody>
-          <tr data-cliente="Minera Los Andes SAC" data-ramo="Multirriesgo" data-ejec="C. Mendoza" data-estado="Validación" onclick="go('comparador')"><td><div style="font-weight:700;color:#fff;">Minera Los Andes SAC</div><div style="font-size:10px;color:var(--g4);">C. Mendoza</div></td><td>Multirriesgo</td><td>Rímac</td><td style="text-align:right;font-weight:700;">S/ 36,250</td><td style="text-align:right;color:var(--green2);font-weight:700;">S/ 4,350</td><td style="text-align:center;"><span class="pill pr">5 días</span></td><td style="text-align:center;"><span class="pill pa">Validación</span></td><td style="text-align:center;"><button class="btn bp btn-xs" onclick="event.stopPropagation();go('validacion')">Ver</button></td></tr>
-          <tr data-cliente="Transportes Rápidos SA" data-ramo="Flota vehicular" data-ejec="C. Mendoza" data-estado="Emitida"><td><div style="font-weight:700;color:#fff;">Transportes Rápidos SA</div><div style="font-size:10px;color:var(--g4);">C. Mendoza</div></td><td>Flota vehicular</td><td>Mapfre</td><td style="text-align:right;font-weight:700;">S/ 28,900</td><td style="text-align:right;color:var(--green2);font-weight:700;">S/ 3,468</td><td style="text-align:center;"><span class="pill pa">12 días</span></td><td style="text-align:center;"><span class="pill pg">Emitida</span></td><td style="text-align:center;"><button class="btn bg btn-xs">Renovar</button></td></tr>
-          <tr data-cliente="Grupo Palmas SAC" data-ramo="Multirriesgo" data-ejec="C. Mendoza" data-estado="Comparando" onclick="go('comparador')"><td><div style="font-weight:700;color:#fff;">Grupo Palmas SAC</div><div style="font-size:10px;color:var(--g4);">C. Mendoza</div></td><td>Multirriesgo</td><td>—</td><td style="text-align:right;color:var(--g4);">Pendiente</td><td style="text-align:right;color:var(--g4);">—</td><td style="text-align:center;color:var(--g4);">—</td><td style="text-align:center;"><span class="pill pa">Comparando</span></td><td style="text-align:center;"><button class="btn bp btn-xs" onclick="event.stopPropagation();go('comparador')">Comparar</button></td></tr>
-          <tr data-cliente="Clínica Santa María EIRL" data-ramo="Salud grupal" data-ejec="M. Fernández" data-estado="Emitida"><td><div style="font-weight:700;color:#fff;">Clínica Santa María EIRL</div><div style="font-size:10px;color:var(--g4);">M. Fernández</div></td><td>Salud grupal</td><td>Pacífico</td><td style="text-align:right;font-weight:700;">S/ 67,500</td><td style="text-align:right;color:var(--green2);font-weight:700;">S/ 8,775</td><td style="text-align:center;"><span class="pill pa">18 días</span></td><td style="text-align:center;"><span class="pill pg">Emitida</span></td><td style="text-align:center;"><button class="btn bg btn-xs">Renovar</button></td></tr>
-          <tr data-cliente="Textil Andina SAC" data-ramo="Multirriesgo" data-ejec="J. Paredes" data-estado="Despacho" onclick="go('despacho')"><td><div style="font-weight:700;color:#fff;">Textil Andina SAC</div><div style="font-size:10px;color:var(--g4);">J. Paredes</div></td><td>Multirriesgo</td><td>La Positiva</td><td style="text-align:right;font-weight:700;">S/ 18,400</td><td style="text-align:right;color:var(--green2);font-weight:700;">S/ 2,208</td><td style="text-align:center;color:var(--g4);">Recién emitida</td><td style="text-align:center;"><span class="pill pb">Despacho</span></td><td style="text-align:center;"><button class="btn bgreen btn-xs" onclick="event.stopPropagation();go('despacho')">Despachar</button></td></tr>
-          <tr data-cliente="Smart Cast Trading SAC" data-ramo="Multirriesgo" data-ejec="A. Torres" data-estado="Emitida"><td><div style="font-weight:700;color:#fff;">Smart Cast Trading SAC</div><div style="font-size:10px;color:var(--g4);">A. Torres</div></td><td>Multirriesgo</td><td>La Positiva</td><td style="text-align:right;font-weight:700;">S/ 13,815</td><td style="text-align:right;color:var(--green2);font-weight:700;">S/ 1,341</td><td style="text-align:center;"><span class="pill pg">Feb 2027</span></td><td style="text-align:center;"><span class="pill pg">Emitida</span></td><td style="text-align:center;"><button class="btn bg btn-xs">Ver</button></td></tr>
-        </tbody>
-      </table>
+    <!-- Detail view for managing a cotizacion -->
+    <div id="cot-detail-view" style="display:none;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+        <button class="btn bg btn-sm" onclick="closeCotizacionDetail()">← Volver</button>
+        <div>
+          <div style="font-size:15px;font-weight:800;" id="cot-detail-title">—</div>
+          <div style="font-size:11px;color:var(--g4);" id="cot-detail-sub">—</div>
+        </div>
+        <button class="btn bp btn-sm" style="margin-left:auto;" onclick="go('comparador')">Ver en comparador →</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 300px;gap:14px;">
+        <div>
+          <div class="card" style="margin-bottom:13px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:13px;">
+              <div class="ctitle" style="margin:0;">Cotizaciones recibidas de aseguradoras</div>
+              <div style="font-size:11px;color:var(--g4);">Integradas: auto-sincronizadas · Manuales: cargar PDF</div>
+            </div>
+            <div id="cot-polizas-list"><!-- rendered --></div>
+            <div style="margin-top:12px;border-top:1px solid var(--border);padding-top:12px;">
+              <div style="font-size:12px;font-weight:700;margin-bottom:9px;">Agregar cotización manual</div>
+              <div style="display:flex;gap:9px;align-items:flex-start;">
+                <select class="fi" id="new-aseg-manual" style="flex:1;"><option value="">Seleccionar aseguradora...</option><option>Rímac Seguros</option><option>Mapfre Perú</option><option>Pacífico Seguros</option><option>La Positiva</option><option>HDI Seguros</option><option>SURA</option><option>Chubb</option></select>
+                <div class="dz" style="flex:2;padding:12px;font-size:12px;" onclick="addManualPoliza()">
+                  <span style="font-size:16px;opacity:.5;">📎</span> Arrastra PDF de cotización o haz clic para subir
+                </div>
+                <button class="btn bp btn-sm" onclick="addManualPoliza()">+ Agregar</button>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ctitle">Datos de la cotización</div>
+            <div class="g2" style="margin-bottom:10px;">
+              <div class="field"><label>Cliente</label><input class="fi" id="cot-det-cliente" value=""/></div>
+              <div class="field"><label>Ramo</label><input class="fi" id="cot-det-ramo" value=""/></div>
+              <div class="field"><label>Suma asegurada</label><input class="fi" value="S/ 2,500,000"/></div>
+              <div class="field"><label>Vigencia solicitada</label><input class="fi" value="01/05/2026 – 01/05/2027"/></div>
+            </div>
+            <div class="field"><label>Notas internas</label><textarea class="fi" style="height:55px;" placeholder="Instrucciones especiales, contexto para la cotización..."></textarea></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:11px;">
+          <div class="card">
+            <div class="ctitle">Estado del proceso</div>
+            <div style="display:flex;flex-direction:column;gap:7px;font-size:12px;" id="cot-det-status">
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(5,150,105,.07);border-radius:7px;"><span style="color:var(--green2);">✓</span><span>Slip enviado a aseguradoras</span></div>
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(5,150,105,.07);border-radius:7px;"><span style="color:var(--green2);">✓</span><span>Cotizaciones recibidas (3/4)</span></div>
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(217,119,6,.07);border-radius:7px;"><span style="color:var(--amber2);">⏳</span><span>Pacífico pendiente (manual)</span></div>
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,255,255,.04);border-radius:7px;opacity:.5;"><span style="color:var(--g4);">○</span><span>Comparativo generado</span></div>
+            </div>
+          </div>
+          <div class="aip">
+            <div class="aib" style="margin-bottom:8px;">✦ IA · Resumen</div>
+            <div style="font-size:11px;color:#CBD5E1;line-height:1.6;">3 de 4 cotizaciones recibidas. La IA procesó automáticamente Rímac, Mapfre y La Positiva. Falta Pacífico (manual).</div>
+          </div>
+          <button class="btn bp" style="width:100%;" onclick="go('comparador')">Abrir en comparador →</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -416,10 +474,11 @@ textarea.fi{resize:none;}
         <option value="ml">Minera Los Andes — Multirriesgo</option>
         <option value="tr">Transportes Rápidos — Flota vehicular</option>
       </select>
-      <div style="display:flex;align-items:center;gap:6px;margin-left:auto;">
-        <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--g4);cursor:pointer;"><input type="checkbox" id="show-prev" onchange="togglePrevYear()" style="accent-color:var(--blue2);"> Mostrar póliza año anterior</label>
-        <button class="btn bg btn-sm" onclick="toggleEditComparador(this)">✏ Editar tabla</button>
-        <button class="btn bg btn-sm" onclick="addCompRow()">+ Agregar fila</button>
+      <div style="display:flex;align-items:center;gap:6px;margin-left:auto;flex-wrap:wrap;">
+        <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--g4);cursor:pointer;"><input type="checkbox" id="show-prev" onchange="togglePrevYear()" style="accent-color:var(--blue2);"> Póliza anterior</label>
+        <button class="btn bg btn-sm" onclick="toggleEditComparador(this)">✏ Editar</button>
+        <button class="btn bg btn-sm" onclick="addCompRow()">+ Fila</button>
+        <button class="btn bamber btn-sm" onclick="showRefreshBanner()" title="Detectar cambios en cotizaciones adjuntas">↺ Sincronizar</button>
         <button class="btn bg btn-sm" onclick="downloadComparadorExcel()">⬇ Excel</button>
         <button class="btn bg btn-sm" onclick="downloadComparadorPDF()">⬇ PDF</button>
       </div>
@@ -461,15 +520,28 @@ textarea.fi{resize:none;}
           <tr data-row="gastos-ext"><td style="color:#CBD5E1;">Gastos extras / extraordinarios</td><td class="prev" style="display:none;text-align:center;">20% val.</td><td class="w" style="text-align:center;color:var(--sky);">20% val. decl. máx. US$400K</td><td style="text-align:center;">20% val. decl.</td><td style="text-align:center;">20% val. decl.</td><td style="text-align:center;">US$50,000 fijo</td><td style="text-align:center;"><button class="btn-del-row" onclick="delCompRow(this)">×</button></td></tr>
           <tr data-row="rc-patr"><td style="color:#CBD5E1;">RC Patronal (sublímite)</td><td class="prev" style="display:none;text-align:center;">US$20,000</td><td class="w" style="text-align:center;color:var(--sky);">US$25,000</td><td style="text-align:center;">US$20,000</td><td style="text-align:center;">US$25,000</td><td style="text-align:center;">No incluida</td><td style="text-align:center;"><button class="btn-del-row" onclick="delCompRow(this)">×</button></td></tr>
           <tr data-row="siniestro-time"><td style="color:#CBD5E1;">Plazo respuesta siniestros</td><td class="prev" style="display:none;text-align:center;">20 días</td><td class="w" style="text-align:center;color:var(--sky);">15 días hábiles</td><td style="text-align:center;">20 días</td><td style="text-align:center;">18 días</td><td style="text-align:center;">20 días</td><td style="text-align:center;"><button class="btn-del-row" onclick="delCompRow(this)">×</button></td></tr>
+          <tr class="sect" data-sect="true"><td colspan="8">Condiciones especiales y cláusulas</td></tr>
+          <tr data-row="cond-hmdm"><td style="color:#CBD5E1;">Cob. HMDM / Terrorismo</td><td class="prev" style="display:none;text-align:center;color:var(--green2);">✓ Cláusula 010027</td><td class="w" style="text-align:center;color:var(--green2);">✓ Cláusula 010027</td><td style="text-align:center;color:var(--green2);">✓ Cláusula estándar</td><td style="text-align:center;color:var(--green2);">✓ Cláusula C-44</td><td style="text-align:center;color:var(--green2);">✓ Cláusula 086</td><td style="text-align:center;"><button class="btn-del-row" onclick="delCompRow(this)">×</button></td></tr>
+          <tr data-row="cond-waiver"><td style="color:#CBD5E1;">Waiver of Subrogation</td><td class="prev" style="display:none;text-align:center;color:var(--green2);">✓</td><td class="w" style="text-align:center;color:var(--green2);">✓ Incluida</td><td style="text-align:center;color:var(--red);">✗ No incluida</td><td style="text-align:center;color:var(--green2);">✓ A solicitud</td><td style="text-align:center;color:var(--green2);">✓ Incluida</td><td style="text-align:center;"><button class="btn-del-row" onclick="delCompRow(this)">×</button></td></tr>
+          <tr data-row="cond-crossliab"><td style="color:#CBD5E1;">Cross Liability</td><td class="prev" style="display:none;text-align:center;color:var(--green2);">✓</td><td class="w" style="text-align:center;color:var(--green2);">✓ Incluida</td><td style="text-align:center;color:var(--green2);">✓ Incluida</td><td style="text-align:center;color:var(--red);">✗ No incluida</td><td style="text-align:center;color:var(--green2);">✓ Incluida</td><td style="text-align:center;"><button class="btn-del-row" onclick="delCompRow(this)">×</button></td></tr>
+          <tr data-row="cond-72h"><td style="color:#CBD5E1;">Cláusula 72 horas</td><td class="prev" style="display:none;text-align:center;color:var(--green2);">✓</td><td class="w" style="text-align:center;color:var(--green2);">✓ Aplicable</td><td style="text-align:center;color:var(--green2);">✓ Aplicable</td><td style="text-align:center;color:var(--green2);">✓ Aplicable</td><td style="text-align:center;color:var(--green2);">✓ Aplicable</td><td style="text-align:center;"><button class="btn-del-row" onclick="delCompRow(this)">×</button></td></tr>
+          <tr data-row="cond-nonvit"><td style="color:#CBD5E1;">Non-Vitiation</td><td class="prev" style="display:none;text-align:center;color:var(--red);">✗</td><td class="w" style="text-align:center;color:var(--green2);">✓ Incluida</td><td style="text-align:center;color:var(--red);">✗ No disponible</td><td style="text-align:center;color:var(--red);">✗ No disponible</td><td style="text-align:center;color:var(--red);">✗ No disponible</td><td style="text-align:center;"><button class="btn-del-row" onclick="delCompRow(this)">×</button></td></tr>
+          <tr data-row="cond-otras"><td style="color:#CBD5E1;">Otras condiciones especiales</td><td class="prev" style="display:none;text-align:center;">—</td><td class="w" style="text-align:center;color:var(--sky);" contenteditable="false">Período LC RM 12 meses</td><td style="text-align:center;" contenteditable="false">—</td><td style="text-align:center;" contenteditable="false">—</td><td style="text-align:center;" contenteditable="false">—</td><td style="text-align:center;"><button class="btn-del-row" onclick="delCompRow(this)">×</button></td></tr>
         </tbody>
       </table>
+    </div>
+    <!-- Refresh banner -->
+    <div id="comp-refresh-banner" style="display:none;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.3);border-radius:9px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">
+      <span style="font-size:13px;">⚠</span>
+      <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:#FCD34D;" id="comp-refresh-msg">Se detectaron cambios en las cotizaciones adjuntas</div><div style="font-size:11px;color:var(--g4);margin-top:2px;" id="comp-refresh-detail">Mapfre actualizó cotización · La Positiva agregada manualmente</div></div>
+      <button class="btn bamber btn-sm" onclick="refreshComparador()">↺ Actualizar comparativo</button>
     </div>
     <!-- Selección de aseguradoras -->
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;" id="comp-cards">
       <div class="card ct-sel-row" id="card-rimac" style="border:2px solid var(--blue2);text-align:center;position:relative;"><span class="ct-sel-badge" style="position:absolute;top:10px;right:10px;" onclick="selectAseg('rimac')">★ Seleccionada</span><div style="font-size:13px;font-weight:800;margin-bottom:7px;margin-top:20px;">Rímac Seguros</div><div style="font-size:22px;font-weight:800;color:var(--sky);margin-bottom:3px;">S/ 36,250</div><div style="font-size:11px;color:var(--green2);margin-bottom:3px;">Comisión: S/ 4,350 (12%)</div><div style="font-size:11px;color:var(--g4);margin-bottom:12px;">Deducible más bajo</div><button class="btn bp" style="width:100%;" onclick="go('orden')">Emitir orden →</button></div>
-      <div class="card" id="card-positiva" style="text-align:center;cursor:pointer;" onclick="selectAseg('positiva')"><div style="height:30px;"></div><div style="font-size:13px;font-weight:800;margin-bottom:7px;">La Positiva</div><div style="font-size:22px;font-weight:800;color:#CBD5E1;margin-bottom:3px;">S/ 38,100</div><div style="font-size:11px;color:var(--amber2);margin-bottom:3px;">Comisión: S/ 3,696 (9.7%)</div><div style="font-size:11px;color:var(--green2);margin-bottom:12px;">Más coberturas adicionales</div><button class="btn bs" style="width:100%;">Seleccionar</button></div>
-      <div class="card" id="card-mapfre" style="text-align:center;cursor:pointer;" onclick="selectAseg('mapfre')"><div style="height:30px;"></div><div style="font-size:13px;font-weight:800;margin-bottom:7px;">Mapfre Perú</div><div style="font-size:22px;font-weight:800;color:#CBD5E1;margin-bottom:3px;">S/ 39,800</div><div style="font-size:11px;color:var(--amber2);margin-bottom:3px;">Comisión: S/ 4,577 (11.5%)</div><div style="font-size:11px;color:var(--green2);margin-bottom:12px;">Rotura maquinaria incluida</div><button class="btn bs" style="width:100%;">Seleccionar</button></div>
-      <div class="card" id="card-pacifico" style="text-align:center;cursor:pointer;" onclick="selectAseg('pacifico')"><div style="height:30px;"></div><div style="font-size:13px;font-weight:800;margin-bottom:7px;">Pacífico Seguros</div><div style="font-size:22px;font-weight:800;color:#CBD5E1;margin-bottom:3px;">S/ 41,500</div><div style="font-size:11px;color:var(--green2);margin-bottom:3px;">Comisión: S/ 4,980 (12%)</div><div style="font-size:11px;color:var(--g4);margin-bottom:12px;">Menos coberturas</div><button class="btn bs" style="width:100%;">Seleccionar</button></div>
+      <div class="card" id="card-positiva" style="text-align:center;cursor:pointer;position:relative;" onclick="selectAseg('positiva')"><div style="height:30px;"></div><div style="font-size:13px;font-weight:800;margin-bottom:7px;">La Positiva</div><div style="font-size:22px;font-weight:800;color:#CBD5E1;margin-bottom:3px;">S/ 38,100</div><div style="font-size:11px;color:var(--amber2);margin-bottom:3px;">Comisión: S/ 3,696 (9.7%)</div><div style="font-size:11px;color:var(--green2);margin-bottom:12px;">Más coberturas adicionales</div><button class="btn bs" style="width:100%;" id="btn-positiva">Seleccionar</button></div>
+      <div class="card" id="card-mapfre" style="text-align:center;cursor:pointer;position:relative;" onclick="selectAseg('mapfre')"><div style="height:30px;"></div><div style="font-size:13px;font-weight:800;margin-bottom:7px;">Mapfre Perú</div><div style="font-size:22px;font-weight:800;color:#CBD5E1;margin-bottom:3px;">S/ 39,800</div><div style="font-size:11px;color:var(--amber2);margin-bottom:3px;">Comisión: S/ 4,577 (11.5%)</div><div style="font-size:11px;color:var(--green2);margin-bottom:12px;">Rotura maquinaria incluida</div><button class="btn bs" style="width:100%;" id="btn-mapfre">Seleccionar</button></div>
+      <div class="card" id="card-pacifico" style="text-align:center;cursor:pointer;position:relative;" onclick="selectAseg('pacifico')"><div style="height:30px;"></div><div style="font-size:13px;font-weight:800;margin-bottom:7px;">Pacífico Seguros</div><div style="font-size:22px;font-weight:800;color:#CBD5E1;margin-bottom:3px;">S/ 41,500</div><div style="font-size:11px;color:var(--green2);margin-bottom:3px;">Comisión: S/ 4,980 (12%)</div><div style="font-size:11px;color:var(--g4);margin-bottom:12px;">Menos coberturas</div><button class="btn bs" style="width:100%;" id="btn-pacifico">Seleccionar</button></div>
     </div>
   </div>
 
@@ -811,7 +883,24 @@ textarea.fi{resize:none;}
   </div>
 </div>
 
-<div id="m-new-aseg" class="modal-bg" style="display:none;" onclick="if(event.target===this)hideM('m-new-aseg')">
+<div id="m-select-aseg" class="modal-bg" style="display:none;" onclick="if(event.target===this)hideM('m-select-aseg')">
+  <div class="modal modal-lg"><div class="modal-title">Seleccionar cotizaciones a comparar</div>
+    <div class="al-b alert" style="margin-bottom:13px;">Se encontraron <strong>5 cotizaciones</strong> — el comparativo admite máximo 4. Selecciona las que quieres incluir.</div>
+    <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:15px;">
+      <div style="display:flex;align-items:center;gap:11px;padding:11px 13px;background:rgba(37,99,235,.07);border:1px solid rgba(37,99,235,.2);border-radius:8px;"><input type="checkbox" checked style="accent-color:var(--blue2);width:15px;height:15px;"/><div style="flex:1;"><div style="font-size:12px;font-weight:700;">Rímac Seguros <span class="pill pg" style="font-size:9px;margin-left:5px;">Integrada</span></div><div style="font-size:11px;color:var(--g4);">Prima: S/ 28,100 · Com: 12% — Recibida 14/04</div></div><span class="pill pg" style="font-size:9px;">Recomendada IA</span></div>
+      <div style="display:flex;align-items:center;gap:11px;padding:11px 13px;background:rgba(0,0,0,.15);border:1px solid rgba(255,255,255,.06);border-radius:8px;"><input type="checkbox" checked style="accent-color:var(--blue2);width:15px;height:15px;"/><div style="flex:1;"><div style="font-size:12px;font-weight:700;">Mapfre Perú <span class="pill pg" style="font-size:9px;margin-left:5px;">Integrada</span></div><div style="font-size:11px;color:var(--g4);">Prima: S/ 31,500 · Com: 11.5% — Recibida 14/04</div></div></div>
+      <div style="display:flex;align-items:center;gap:11px;padding:11px 13px;background:rgba(0,0,0,.15);border:1px solid rgba(255,255,255,.06);border-radius:8px;"><input type="checkbox" checked style="accent-color:var(--blue2);width:15px;height:15px;"/><div style="flex:1;"><div style="font-size:12px;font-weight:700;">Pacífico Seguros <span class="pill pa" style="font-size:9px;margin-left:5px;">Manual</span></div><div style="font-size:11px;color:var(--g4);">Prima: S/ 29,800 · Com: 12% — Cargada 22/04</div></div></div>
+      <div style="display:flex;align-items:center;gap:11px;padding:11px 13px;background:rgba(0,0,0,.15);border:1px solid rgba(255,255,255,.06);border-radius:8px;"><input type="checkbox" checked style="accent-color:var(--blue2);width:15px;height:15px;"/><div style="flex:1;"><div style="font-size:12px;font-weight:700;">La Positiva <span class="pill pg" style="font-size:9px;margin-left:5px;">Integrada</span></div><div style="font-size:11px;color:var(--g4);">Prima: S/ 33,200 · Com: 9.7% — Recibida 15/04</div></div></div>
+      <div style="display:flex;align-items:center;gap:11px;padding:11px 13px;background:rgba(0,0,0,.15);border:1px solid rgba(255,255,255,.06);border-radius:8px;opacity:.7;"><input type="checkbox" style="accent-color:var(--blue2);width:15px;height:15px;"/><div style="flex:1;"><div style="font-size:12px;font-weight:700;">HDI Seguros <span class="pill pa" style="font-size:9px;margin-left:5px;">Manual</span></div><div style="font-size:11px;color:var(--g4);">Prima: S/ 35,100 · Com: 10% — Cargada 22/04</div></div><span class="pill pgr" style="font-size:9px;">No seleccionada</span></div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn bp" onclick="alert('✅ Comparativo actualizado con 4 cotizaciones seleccionadas');hideM('m-select-aseg')">Actualizar comparativo con selección</button>
+      <button class="btn bg" onclick="hideM('m-select-aseg')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+ style="display:none;" onclick="if(event.target===this)hideM('m-new-aseg')">
   <div class="modal"><div class="modal-title">Agregar aseguradora</div>
     <div style="display:flex;flex-direction:column;gap:11px;margin-bottom:15px;">
       <div class="g2"><div class="field"><label>Nombre *</label><input class="fi" placeholder="Ej: SURA, Chubb, HDI..."/></div><div class="field"><label>Tipo integración</label><select class="fi"><option>Integrada (API automática)</option><option>Manual (correo)</option><option>Portal web</option></select></div></div>
@@ -1267,8 +1356,353 @@ function cotizarOpp(clientName, polizaTipo){
   cotizarDesdeCliente(clientName, polizaTipo);
 }
 
+// ── COTIZACION DETAIL ────────────────────────────────────────
+const COT_POLIZAS = {
+  'ml-mr':{aseguradoras:[
+    {id:'rimac',name:'Rímac Seguros',tipo:'integrada',estado:'recibida',fecha:'10/04/2026',prima:'S/ 36,250',com:'12%',archivo:'cot_rimac_minera.pdf'},
+    {id:'mapfre',name:'Mapfre Perú',tipo:'integrada',estado:'recibida',fecha:'11/04/2026',prima:'S/ 39,800',com:'11.5%',archivo:'cot_mapfre_minera.pdf'},
+    {id:'positiva',name:'La Positiva',tipo:'integrada',estado:'recibida',fecha:'12/04/2026',prima:'S/ 38,100',com:'9.7%',archivo:'cot_positiva_minera.pdf'},
+    {id:'pacifico',name:'Pacífico Seguros',tipo:'manual',estado:'pendiente',fecha:'—',prima:'—',com:'—',archivo:''},
+  ]},
+  'gp-mr':{aseguradoras:[
+    {id:'rimac',name:'Rímac Seguros',tipo:'integrada',estado:'recibida',fecha:'14/04/2026',prima:'S/ 28,100',com:'12%',archivo:'cot_rimac_gpalmas.pdf'},
+    {id:'mapfre',name:'Mapfre Perú',tipo:'integrada',estado:'recibida',fecha:'14/04/2026',prima:'S/ 31,500',com:'11.5%',archivo:'cot_mapfre_gpalmas.pdf'},
+    {id:'pacifico',name:'Pacífico Seguros',tipo:'manual',estado:'pendiente',fecha:'—',prima:'—',com:'—',archivo:''},
+    {id:'hdi',name:'HDI Seguros',tipo:'manual',estado:'pendiente',fecha:'—',prima:'—',com:'—',archivo:''},
+  ]},
+  'tr-fl':{aseguradoras:[
+    {id:'mapfre',name:'Mapfre Perú',tipo:'integrada',estado:'recibida',fecha:'01/03/2026',prima:'S/ 28,900',com:'12%',archivo:'cot_mapfre_tr.pdf'},
+    {id:'rimac',name:'Rímac Seguros',tipo:'integrada',estado:'recibida',fecha:'02/03/2026',prima:'S/ 30,200',com:'12%',archivo:'cot_rimac_tr.pdf'},
+  ]},
+  'cs-sg':{aseguradoras:[
+    {id:'pacifico',name:'Pacífico Seguros',tipo:'integrada',estado:'recibida',fecha:'01/04/2026',prima:'S/ 67,500',com:'13%',archivo:'cot_pacifico_cs.pdf'},
+    {id:'rimac',name:'Rímac Seguros',tipo:'integrada',estado:'recibida',fecha:'02/04/2026',prima:'S/ 71,200',com:'12%',archivo:'cot_rimac_cs.pdf'},
+  ]},
+  'ta-mr':{aseguradoras:[
+    {id:'positiva',name:'La Positiva',tipo:'integrada',estado:'recibida',fecha:'10/04/2026',prima:'S/ 18,400',com:'12%',archivo:'cot_positiva_ta.pdf'},
+    {id:'rimac',name:'Rímac Seguros',tipo:'integrada',estado:'recibida',fecha:'11/04/2026',prima:'S/ 20,100',com:'12%',archivo:'cot_rimac_ta.pdf'},
+  ]},
+  'sc-mr':{aseguradoras:[
+    {id:'positiva',name:'La Positiva',tipo:'integrada',estado:'recibida',fecha:'13/02/2026',prima:'S/ 13,815',com:'9.7%',archivo:'cot_positiva_sc.pdf'},
+  ]},
+};
+
+let currentCotId = null;
+
+function openCotizacionDetail(cotId, cliente, ramo){
+  currentCotId = cotId;
+  document.getElementById('cot-detail-title').textContent = cliente + ' · ' + ramo;
+  document.getElementById('cot-detail-sub').textContent = 'Administrar cotizaciones y pólizas adjuntas';
+  document.getElementById('cot-det-cliente').value = cliente;
+  document.getElementById('cot-det-ramo').value = ramo;
+  renderCotPolizas(cotId);
+  document.getElementById('cot-list-view').style.display='none';
+  document.getElementById('cot-detail-view').style.display='block';
+}
+
+function closeCotizacionDetail(){
+  document.getElementById('cot-list-view').style.display='block';
+  document.getElementById('cot-detail-view').style.display='none';
+}
+
+function renderCotPolizas(cotId){
+  const data = COT_POLIZAS[cotId]||{aseguradoras:[]};
+  const list = document.getElementById('cot-polizas-list');
+  list.innerHTML = data.aseguradoras.map(a=>`
+    <div id="cot-aseg-${a.id}" style="display:flex;align-items:center;gap:11px;padding:11px 13px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.06);border-radius:9px;margin-bottom:7px;">
+      <div style="width:36px;height:36px;border-radius:8px;background:${a.estado==='recibida'?'rgba(37,99,235,.15)':'rgba(255,255,255,.04)'};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:${a.estado==='recibida'?'var(--sky)':'var(--g5)'};">${a.name.substring(0,2).toUpperCase()}</div>
+      <div style="flex:1;">
+        <div style="font-size:12px;font-weight:700;color:#fff;">${a.name} <span style="font-size:9px;font-weight:600;padding:1px 6px;border-radius:4px;margin-left:5px;background:${a.tipo==='integrada'?'rgba(5,150,105,.15)':'rgba(217,119,6,.15)'};color:${a.tipo==='integrada'?'var(--green2)':'var(--amber2)'};">${a.tipo==='integrada'?'Auto':'Manual'}</span></div>
+        <div style="font-size:11px;color:var(--g4);margin-top:1px;">${a.estado==='recibida'?`Recibida ${a.fecha} · Prima: <strong style="color:#fff;">${a.prima}</strong> · Com: <strong style="color:var(--green2);">${a.com}</strong>`:`Pendiente · Cotización no recibida aún`}</div>
+        ${a.archivo?`<div style="font-size:10px;color:var(--sky);margin-top:2px;cursor:pointer;" onclick="alert('Descargando ${a.archivo}')">📎 ${a.archivo}</div>`:''}
+      </div>
+      <div style="display:flex;gap:5px;flex-shrink:0;">
+        ${a.estado==='recibida'?`<button class="btn bg btn-xs" onclick="alert('Descargando PDF')">⬇</button>`:''}
+        ${a.tipo==='manual'&&a.estado==='pendiente'?`<button class="btn bp btn-xs" onclick="uploadManualPoliza('${a.id}','${cotId}')">⬆ Subir PDF</button>`:''}
+        ${a.estado==='recibida'?`<button class="btn bg btn-xs" onclick="replacePoliza('${a.id}','${cotId}')">↺ Reemplazar</button>`:''}
+        <button class="btn bred btn-xs" onclick="removePoliza('${a.id}','${cotId}')">✕</button>
+      </div>
+    </div>`).join('');
+}
+
+function uploadManualPoliza(asegId, cotId){
+  const data = COT_POLIZAS[cotId];
+  const a = data.aseguradoras.find(x=>x.id===asegId);
+  if(a){
+    a.estado='recibida'; a.fecha='22/04/2026'; a.prima='S/ 42,300'; a.com='12%'; a.archivo='cot_'+asegId+'_manual.pdf';
+    renderCotPolizas(cotId);
+    showRefreshBanner(`Se cargó nueva cotización de ${a.name}`,'Actualizar el comparativo para incluir esta cotización');
+    alert('✅ PDF procesado por IA — datos extraídos automáticamente');
+  }
+}
+
+function replacePoliza(asegId, cotId){
+  alert('Selecciona el nuevo PDF de '+asegId+'. La IA actualizará los datos automáticamente.');
+  const data = COT_POLIZAS[cotId];
+  const a = data.aseguradoras.find(x=>x.id===asegId);
+  if(a){
+    a.fecha='22/04/2026'; a.archivo='cot_'+asegId+'_actualizada.pdf';
+    showRefreshBanner(`Cotización de ${a.name} actualizada`,'Sincronizar comparativo con nueva versión');
+  }
+}
+
+function removePoliza(asegId, cotId){
+  if(!confirm('¿Eliminar esta cotización?')) return;
+  const data = COT_POLIZAS[cotId];
+  data.aseguradoras = data.aseguradoras.filter(x=>x.id!==asegId);
+  renderCotPolizas(cotId);
+}
+
+function addManualPoliza(){
+  const sel = document.getElementById('new-aseg-manual');
+  if(!sel.value){alert('Selecciona una aseguradora primero.'); return;}
+  const name = sel.value; const id = name.split(' ')[0].toLowerCase();
+  const data = COT_POLIZAS[currentCotId];
+  if(data.aseguradoras.find(x=>x.id===id)){alert('Esa aseguradora ya está en la lista.'); return;}
+  data.aseguradoras.push({id,name,tipo:'manual',estado:'pendiente',fecha:'—',prima:'—',com:'—',archivo:''});
+  renderCotPolizas(currentCotId);
+  sel.value='';
+}
+
+// ── REFRESH COMPARADOR ───────────────────────────────────────
+function showRefreshBanner(msg, detail){
+  const b = document.getElementById('comp-refresh-banner');
+  if(b){
+    b.style.display='flex';
+    document.getElementById('comp-refresh-msg').textContent = msg||'Se detectaron cambios en las cotizaciones adjuntas';
+    document.getElementById('comp-refresh-detail').textContent = detail||'';
+  }
+}
+
+function refreshComparador(){
+  document.getElementById('comp-refresh-banner').style.display='none';
+  // If >4 cotizaciones, show selection modal
+  const n = COT_POLIZAS[currentCotId||'gp-mr']?.aseguradoras.filter(x=>x.estado==='recibida').length||0;
+  if(n>4){
+    showM('m-select-aseg');
+  } else {
+    alert('✅ Comparativo actualizado con las cotizaciones más recientes.\n\nLa IA re-procesó las pólizas modificadas y actualizó los datos del comparativo automáticamente.\n\n⚡ Nota: Las comparaciones ya procesadas se reutilizan desde caché — sin costo adicional.');
+  }
+}
+
+// ── DASHBOARD CHART ──────────────────────────────────────────
+const CHART_DATA = {
+  '12m':{
+    labels:['May','Jun','Jul','Ago','Sep','Oct','Nov','Dic','Ene','Feb','Mar','Abr'],
+    values:[218,247,295,271,338,311,361,395,350,418,383,412],
+    prev: [195,220,268,250,304,289,328,361,318,380,351,370],
+    showPrev:false,
+    title:'Primas cerradas por mes', sub:'Últimos 12 meses · May 2025 – Abr 2026'
+  },
+  'ytd26':{
+    labels:['Ene','Feb','Mar','Abr'],
+    values:[350,418,383,412],
+    prev: [318,380,351,370],
+    showPrev:true,
+    title:'YTD 2026 vs YTD 2025', sub:'Acumulado ene–abr · 2026 vs 2025'
+  },
+  '2025':{
+    labels:['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+    values:[302,341,318,370,218,247,295,271,338,311,361,395],
+    prev:[],
+    showPrev:false,
+    title:'Año completo 2025', sub:'Enero – Diciembre 2025'
+  }
+};
+
+function updateDashChart(mode){
+  const d = CHART_DATA[mode];
+  const max = Math.max(...d.values,...(d.prev||[]));
+  document.getElementById('dash-chart-title').textContent=d.title;
+  document.getElementById('dash-chart-sub').textContent=d.sub;
+  const container = document.getElementById('dash-barchart');
+  const hasPrev = d.showPrev && d.prev && d.prev.length;
+  let html = `<div style="display:flex;align-items:flex-end;gap:${hasPrev?'4':'8'}px;height:130px;padding-bottom:20px;">`;
+  d.labels.forEach((lb,i)=>{
+    const h = Math.round((d.values[i]/max)*92);
+    const isCurrent = (mode==='12m' && lb==='Abr') || (mode==='ytd26' && lb==='Abr');
+    const barColor = isCurrent?'var(--blue2)':'rgba(37,99,235,.35)';
+    const border = isCurrent?'border:2px solid var(--sky);':'';
+    if(hasPrev){
+      const hp = Math.round((d.prev[i]/max)*92);
+      html += `<div style="display:flex;gap:2px;align-items:flex-end;flex:1;">
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;">
+          <div style="width:100%;height:${hp}px;background:rgba(255,255,255,.1);border-radius:3px 3px 0 0;" title="2025: S/${d.prev[i]}K"></div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;">
+          <div style="width:100%;height:${h}px;background:${barColor};${border}border-radius:3px 3px 0 0;" title="2026: S/${d.values[i]}K"></div>
+        </div>
+      </div>`;
+    } else {
+      html += `<div class="bar-col" style="flex:1;position:relative;">
+        <div class="bar" style="height:${h}px;background:${barColor};${border}width:100%;"></div>
+        ${isCurrent?`<div style="position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:#04091A;color:var(--sky);font-size:9px;padding:1px 4px;border-radius:3px;border:1px solid rgba(96,165,250,.3);white-space:nowrap;">S/${d.values[i]}K</div>`:''}
+      </div>`;
+    }
+  });
+  html += '</div>';
+  // Labels row
+  html += `<div style="display:flex;gap:${hasPrev?'4':'8'}px;">`;
+  d.labels.forEach((lb,i)=>{
+    const isCurrent = lb==='Abr' && mode!=='2025';
+    html += `<div style="flex:1;text-align:center;font-size:10px;color:${isCurrent?'var(--sky)':'var(--g4)'};font-weight:${isCurrent?'700':'400'};">${lb}</div>`;
+  });
+  html += '</div>';
+  if(hasPrev){
+    html += `<div style="display:flex;gap:12px;margin-top:9px;padding:7px 11px;background:rgba(0,0,0,.2);border-radius:7px;">
+      <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#CBD5E1;"><div style="width:10px;height:10px;border-radius:2px;background:var(--blue2);"></div>2026: S/${d.values.reduce((a,b)=>a+b,0)}K</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--g4);"><div style="width:10px;height:10px;border-radius:2px;background:rgba(255,255,255,.15);"></div>2025: S/${d.prev.reduce((a,b)=>a+b,0)}K</div>
+      <div style="margin-left:auto;font-size:11px;color:var(--green2);font-weight:700;">+${Math.round(((d.values.reduce((a,b)=>a+b,0)-d.prev.reduce((a,b)=>a+b,0))/d.prev.reduce((a,b)=>a+b,0))*100)}% YTD</div>
+    </div>`;
+  }
+  container.innerHTML = html;
+}
+
+// ── LIDER DATA ────────────────────────────────────────────────
+const LIDER_PERIODS = {
+  abr26:{label:'Abril 2026',comp:'vs. Mar 2026 y Abr 2025',isYTD:false,
+    kpis:[
+      {l:'Prima total equipo',v:'S/1.21M',mom:'+8%',yoy:'+22%',momUp:true,yoyUp:true,color:'var(--sky)'},
+      {l:'Comisiones equipo',v:'S/145K',mom:'+6%',yoy:'+18%',momUp:true,yoyUp:true,color:'#C4B5FD'},
+      {l:'Pólizas por vencer (30d)',v:'18',mom:'-2',yoy:'+3',momUp:false,yoyUp:false,color:'#FCA5A5'},
+      {l:'Tasa de renovación',v:'87%',mom:'+2pp',yoy:'+5pp',momUp:true,yoyUp:true,color:'#6EE7B7'},
+    ],
+    ia:{prima:'S/ 187K',com:'S/ 22,440',polizas:'9',
+      primaMom:'+S/12K',comMom:'+S/1.4K',primaMomUp:true},
+    execs:[
+      {n:'Carlos Mendoza',r:'Sr.',prima:'S/ 412K',com:'S/ 49.4K',primaIA:'S/ 67K',comIA:'S/ 8K',venc:3,mom:'+8%',yoy:'+22%',momUp:true,yoyUp:true,estado:'En meta',estCls:'pg'},
+      {n:'María Fernández',r:'Sr.',prima:'S/ 380K',com:'S/ 45.6K',primaIA:'S/ 58K',comIA:'S/ 7K',venc:5,mom:'-3%',yoy:'+15%',momUp:false,yoyUp:true,estado:'En riesgo',estCls:'pa'},
+      {n:'Jorge Paredes',r:'Jr.',prima:'S/ 215K',com:'S/ 25.8K',primaIA:'S/ 38K',comIA:'S/ 4.6K',venc:4,mom:'+12%',yoy:'+31%',momUp:true,yoyUp:true,estado:'En proceso',estCls:'pb'},
+      {n:'Ana Torres',r:'Jr.',prima:'S/ 198K',com:'S/ 23.7K',primaIA:'S/ 24K',comIA:'S/ 2.9K',venc:6,mom:'-7%',yoy:'+8%',momUp:false,yoyUp:true,estado:'Alerta',estCls:'pr'},
+    ]},
+  mar26:{label:'Marzo 2026',comp:'vs. Feb 2026 y Mar 2025',isYTD:false,
+    kpis:[
+      {l:'Prima total equipo',v:'S/1.12M',mom:'+5%',yoy:'+19%',momUp:true,yoyUp:true,color:'var(--sky)'},
+      {l:'Comisiones equipo',v:'S/137K',mom:'+4%',yoy:'+16%',momUp:true,yoyUp:true,color:'#C4B5FD'},
+      {l:'Pólizas por vencer (30d)',v:'20',mom:'+1',yoy:'+2',momUp:false,yoyUp:false,color:'#FCA5A5'},
+      {l:'Tasa de renovación',v:'85%',mom:'+1pp',yoy:'+4pp',momUp:true,yoyUp:true,color:'#6EE7B7'},
+    ],
+    ia:{prima:'S/ 175K',com:'S/ 21,000',polizas:'8',primaMom:'+S/9K',comMom:'+S/1.1K',primaMomUp:true},
+    execs:[
+      {n:'Carlos Mendoza',r:'Sr.',prima:'S/ 381K',com:'S/ 45.7K',primaIA:'S/ 59K',comIA:'S/ 7.1K',venc:4,mom:'+5%',yoy:'+18%',momUp:true,yoyUp:true,estado:'En meta',estCls:'pg'},
+      {n:'María Fernández',r:'Sr.',prima:'S/ 392K',com:'S/ 47.0K',primaIA:'S/ 62K',comIA:'S/ 7.4K',venc:3,mom:'+7%',yoy:'+20%',momUp:true,yoyUp:true,estado:'En meta',estCls:'pg'},
+      {n:'Jorge Paredes',r:'Jr.',prima:'S/ 192K',com:'S/ 23.0K',primaIA:'S/ 31K',comIA:'S/ 3.7K',venc:5,mom:'+3%',yoy:'+22%',momUp:true,yoyUp:true,estado:'En proceso',estCls:'pb'},
+      {n:'Ana Torres',r:'Jr.',prima:'S/ 213K',com:'S/ 25.6K',primaIA:'S/ 23K',comIA:'S/ 2.8K',venc:7,mom:'+2%',yoy:'+11%',momUp:true,yoyUp:true,estado:'En proceso',estCls:'pb'},
+    ]},
+  ytd26:{label:'YTD 2026 (Ene–Abr)',comp:'vs. YTD 2025 (Ene–Abr)',isYTD:true,
+    kpis:[
+      {l:'Prima acum. YTD 2026',v:'S/4.54M',mom:'YTD 2025: S/3.69M',yoy:'+23%',momUp:null,yoyUp:true,color:'var(--sky)'},
+      {l:'Comisiones YTD 2026',v:'S/545K',mom:'YTD 2025: S/443K',yoy:'+23%',momUp:null,yoyUp:true,color:'#C4B5FD'},
+      {l:'Pólizas vencidas YTD',v:'7',mom:'YTD 2025: 11',yoy:'-36%',momUp:null,yoyUp:true,color:'#6EE7B7'},
+      {l:'Conversión cotiz. YTD',v:'71%',mom:'YTD 2025: 62%',yoy:'+9pp',momUp:null,yoyUp:true,color:'#6EE7B7'},
+    ],
+    ia:{prima:'S/ 624K',com:'S/ 74,880',polizas:'32',primaMom:'vs YTD 2025: S/0',comMom:'Generado íntegramente',primaMomUp:true},
+    execs:[
+      {n:'Carlos Mendoza',r:'Sr.',prima:'S/ 1.56M',com:'S/ 187K',primaIA:'S/ 241K',comIA:'S/ 28.9K',venc:3,mom:'YTD25: S/1.27M',yoy:'+23%',momUp:null,yoyUp:true,estado:'En meta',estCls:'pg'},
+      {n:'María Fernández',r:'Sr.',prima:'S/ 1.43M',com:'S/ 172K',primaIA:'S/ 208K',comIA:'S/ 24.9K',venc:5,mom:'YTD25: S/1.20M',yoy:'+19%',momUp:null,yoyUp:true,estado:'En meta',estCls:'pg'},
+      {n:'Jorge Paredes',r:'Jr.',prima:'S/ 780K',com:'S/ 93.6K',primaIA:'S/ 110K',comIA:'S/ 13.2K',venc:4,mom:'YTD25: S/612K',yoy:'+27%',momUp:null,yoyUp:true,estado:'Creciendo',estCls:'pb'},
+      {n:'Ana Torres',r:'Jr.',prima:'S/ 801K',com:'S/ 96.1K',primaIA:'S/ 65K',comIA:'S/ 7.8K',venc:6,mom:'YTD25: S/739K',yoy:'+8%',momUp:null,yoyUp:true,estado:'Estable',estCls:'pgr'},
+    ]},
+  q126:{label:'Q1 2026',comp:'vs. Q4 2025 y Q1 2025',isYTD:false,
+    kpis:[
+      {l:'Prima Q1 2026',v:'S/3.32M',mom:'-4%',yoy:'+24%',momUp:false,yoyUp:true,color:'var(--sky)'},
+      {l:'Comisiones Q1 2026',v:'S/398K',mom:'-3%',yoy:'+21%',momUp:false,yoyUp:true,color:'#C4B5FD'},
+      {l:'Pólizas cerradas',v:'71',mom:'-5',yoy:'+14',momUp:false,yoyUp:true,color:'#6EE7B7'},
+      {l:'Tasa de renovación',v:'85%',mom:'-1pp',yoy:'+4pp',momUp:false,yoyUp:true,color:'#6EE7B7'},
+    ],
+    ia:{prima:'S/ 437K',com:'S/ 52,440',polizas:'23',primaMom:'-S/8K vs Q4',comMom:'Estable',primaMomUp:false},
+    execs:[
+      {n:'Carlos Mendoza',r:'Sr.',prima:'S/ 1.15M',com:'S/ 138K',primaIA:'S/ 174K',comIA:'S/ 20.9K',venc:4,mom:'-2%',yoy:'+21%',momUp:false,yoyUp:true,estado:'En meta',estCls:'pg'},
+      {n:'María Fernández',r:'Sr.',prima:'S/ 1.05M',com:'S/ 126K',primaIA:'S/ 150K',comIA:'S/ 18K',venc:3,mom:'-5%',yoy:'+17%',momUp:false,yoyUp:true,estado:'En meta',estCls:'pg'},
+      {n:'Jorge Paredes',r:'Jr.',prima:'S/ 565K',com:'S/ 67.8K',primaIA:'S/ 72K',comIA:'S/ 8.6K',venc:5,mom:'-7%',yoy:'+26%',momUp:false,yoyUp:true,estado:'En proceso',estCls:'pb'},
+      {n:'Ana Torres',r:'Jr.',prima:'S/ 603K',com:'S/ 72.4K',primaIA:'S/ 41K',comIA:'S/ 4.9K',venc:7,mom:'-3%',yoy:'+7%',momUp:false,yoyUp:true,estado:'Estable',estCls:'pgr'},
+    ]},
+};
+// Fill missing periods with simple variants
+['feb26','ene26','q425'].forEach(k=>{
+  if(!LIDER_PERIODS[k]) LIDER_PERIODS[k]={...LIDER_PERIODS.mar26,label:k==='feb26'?'Febrero 2026':k==='ene26'?'Enero 2026':'Q4 2025',comp:'comparativo disponible'};
+});
+
+function updateLider(){
+  const period = document.getElementById('lider-periodo').value;
+  const d = LIDER_PERIODS[period] || LIDER_PERIODS.abr26;
+  document.getElementById('lider-period-label').textContent = d.label;
+  document.getElementById('lider-compare-label').textContent = d.comp;
+  document.getElementById('lider-table-title').textContent = 'Rendimiento por ejecutivo — ' + d.label;
+  // KPIs
+  document.getElementById('lider-kpis').innerHTML = d.kpis.map(k=>`
+    <div class="kpi" style="--kc:${k.color}">
+      <div class="kl">${k.l}</div>
+      <div class="kv">${k.v}</div>
+      <div style="display:flex;flex-direction:column;gap:2px;margin-top:5px;">
+        <div style="font-size:10px;color:${k.momUp===null?'var(--g4)':k.momUp?'var(--green2)':'#FCA5A5'};font-weight:600;">${k.momUp===true?'▲':k.momUp===false?'▼':''} ${k.mom}</div>
+        <div style="font-size:10px;color:${k.yoyUp?'var(--green2)':'#FCA5A5'};font-weight:600;">▲ ${k.yoy} vs año anterior</div>
+      </div>
+    </div>`).join('');
+  // IA KPIs (3 cols, no ROI)
+  document.getElementById('lider-ia-kpis').innerHTML = `
+    <div style="background:rgba(0,0,0,.2);border-radius:8px;padding:11px 13px;"><div style="font-size:10px;color:var(--g4);margin-bottom:4px;">Prima adicional (IA)</div><div style="font-size:20px;font-weight:800;color:#C4B5FD;">${d.ia.prima}</div><div style="font-size:10px;color:${d.ia.primaMomUp?'var(--green2)':'#FCA5A5'};">${d.ia.primaMom}</div></div>
+    <div style="background:rgba(0,0,0,.2);border-radius:8px;padding:11px 13px;"><div style="font-size:10px;color:var(--g4);margin-bottom:4px;">Comisión adicional (IA)</div><div style="font-size:20px;font-weight:800;color:#C4B5FD;">${d.ia.com}</div><div style="font-size:10px;color:var(--green2);">${d.ia.comMom}</div></div>
+    <div style="background:rgba(0,0,0,.2);border-radius:8px;padding:11px 13px;"><div style="font-size:10px;color:var(--g4);margin-bottom:4px;">Pólizas cruzadas (IA)</div><div style="font-size:20px;font-weight:800;color:var(--sky);">${d.ia.polizas}</div><div style="font-size:10px;color:var(--green2);">Nuevas sin prospección</div></div>`;
+  // Exec table
+  document.getElementById('lider-exec-table').innerHTML = `
+    <thead><tr>
+      <th>Ejecutivo</th>
+      <th style="text-align:right">Prima</th>
+      <th style="text-align:right">Comisiones</th>
+      <th style="text-align:right;color:#C4B5FD;">Prima IA</th>
+      <th style="text-align:right;color:#C4B5FD;">Com. IA</th>
+      <th style="text-align:center">vs Mes Ant.</th>
+      <th style="text-align:center">vs Año Ant.</th>
+      <th style="text-align:center">Venc.</th>
+      <th style="text-align:center">Estado</th>
+    </tr></thead>
+    <tbody>${d.execs.map(e=>`
+    <tr>
+      <td><div style="font-weight:700;color:#fff;">${e.n}</div><div style="font-size:10px;color:var(--g4);">Ejecutivo ${e.r}</div></td>
+      <td style="text-align:right;font-weight:700;color:#fff;">${e.prima}</td>
+      <td style="text-align:right;color:#C4B5FD;font-weight:700;">${e.com}</td>
+      <td style="text-align:right;color:#C4B5FD;font-weight:700;">${e.primaIA}</td>
+      <td style="text-align:right;color:var(--green2);font-weight:700;">${e.comIA}</td>
+      <td style="text-align:center;"><span style="font-size:11px;font-weight:700;color:${e.momUp===null?'var(--g4)':e.momUp?'var(--green2)':'#FCA5A5'};">${e.momUp===true?'▲':e.momUp===false?'▼':''} ${e.mom}</span></td>
+      <td style="text-align:center;"><span style="font-size:11px;font-weight:700;color:${e.yoyUp?'var(--green2)':'#FCA5A5'};">▲ ${e.yoy}</span></td>
+      <td style="text-align:center;"><span class="pill ${e.venc>4?'pr':'pa'}">${e.venc}</span></td>
+      <td style="text-align:center;"><span class="pill ${e.estCls}">${e.estado}</span></td>
+    </tr>`).join('')}</tbody>`;
+}
+
+// ── COMPARADOR selectAseg (fix: Emitir orden button) ─────────
+function selectAseg(aseg){
+  const ids = ['rimac','positiva','mapfre','pacifico'];
+  ids.forEach(id=>{
+    const card = document.getElementById('card-'+id);
+    if(!card) return;
+    const btn = card.querySelector('button');
+    const badge = card.querySelector('.ct-sel-badge');
+    if(id===aseg){
+      card.style.border='2px solid var(--blue2)';
+      card.style.background='rgba(37,99,235,.05)';
+      if(!badge){
+        const b=document.createElement('span');
+        b.className='ct-sel-badge'; b.style='position:absolute;top:10px;right:10px;';
+        b.textContent='★ Seleccionada'; b.onclick=()=>selectAseg(id);
+        card.style.position='relative'; card.insertBefore(b,card.firstChild);
+      }
+      // Change button to Emitir orden
+      if(btn){btn.className='btn bp';btn.textContent='Emitir orden →';btn.onclick=()=>go('orden');}
+    } else {
+      card.style.border='1px solid var(--border)';
+      card.style.background='';
+      if(badge) badge.remove();
+      if(btn){btn.className='btn bs';btn.textContent='Seleccionar';btn.onclick=()=>selectAseg(id);}
+    }
+  });
+}
+
 // ── INIT ──────────────────────────────────────────────────────
 renderClientDetail('ml');
+updateDashChart('12m');
+updateLider();
 </script>
 </body>
 </html>
