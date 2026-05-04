@@ -206,6 +206,10 @@ textarea.fi{resize:none;}
     <div class="nav-sec">Cartera</div>
     <div class="ni" onclick="go('clientes')"><svg class="ni-ic" viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg><span class="nl">Clientes</span></div>
     <div class="ni" onclick="go('aseguradoras')"><svg class="ni-ic" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2H5a1 1 0 110-2V4z" clip-rule="evenodd"/></svg><span class="nl">Aseguradoras</span></div>
+    <div class="nav-sec">Operaciones</div>
+    <div class="ni" onclick="go('cobros')"><svg class="ni-ic" viewBox="0 0 20 20" fill="currentColor"><path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"/></svg><span class="nl">Seguimiento pagos</span><span class="nb nb-r" id="nb-cobros">2</span></div>
+    <div class="ni" onclick="go('endosos')"><svg class="ni-ic" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/></svg><span class="nl">Endosos / Cambios</span><span class="nb nb-a" id="nb-endosos">3</span></div>
+    <div class="ni" onclick="go('comisionistas')"><svg class="ni-ic" viewBox="0 0 20 20" fill="currentColor"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/></svg><span class="nl">Comisionistas</span></div>
     <div class="nav-sec">Análisis</div>
     <div class="ni" onclick="go('oportunidades')"><svg class="ni-ic" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd"/></svg><span class="nl">Oportunidades IA</span></div>
     <div class="ni" onclick="go('reportes')"><svg class="ni-ic" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11 4a1 1 0 10-2 0v4a1 1 0 102 0V7zm-3 1a1 1 0 10-2 0v3a1 1 0 102 0V8zM8 9a1 1 0 00-2 0v2a1 1 0 102 0V9z" clip-rule="evenodd"/></svg><span class="nl">Reportes</span></div>
@@ -819,7 +823,172 @@ textarea.fi{resize:none;}
   <div class="screen" id="s-config">
     <div style="max-width:680px;"><div class="card" style="margin-bottom:13px;"><div class="ctitle">Perfil del broker</div><div class="g2" style="margin-bottom:11px;"><div class="field"><label>Nombre del broker</label><input class="fi" value="BrokerPe SAC"/></div><div class="field"><label>RUC</label><input class="fi" value="20601234567"/></div><div class="field"><label>Registro SBS</label><input class="fi" value="J-0234"/></div><div class="field"><label>Teléfono</label><input class="fi" value="(01) 234-5678"/></div></div><div class="field"><label>Logo</label><div style="padding:13px;background:rgba(0,0,0,.2);border:1px dashed rgba(255,255,255,.1);border-radius:7px;text-align:center;cursor:pointer;color:var(--g4);font-size:12px;" onclick="alert('Seleccionar imagen')">Clic para cargar logo · PNG · máx 2MB</div></div></div>
     <div class="card" style="margin-bottom:13px;"><div class="ctitle">Notificaciones</div><div style="display:flex;flex-direction:column;gap:9px;"><div style="display:flex;align-items:center;justify-content:space-between;padding:11px 13px;background:rgba(0,0,0,.2);border-radius:8px;"><div><div style="font-size:13px;font-weight:600;">Alertas vencimiento (90/60/30 días)</div><div style="font-size:11px;color:var(--g4);">Correo automático al ejecutivo</div></div><div class="tog on" onclick="this.classList.toggle('on');this.classList.toggle('off')"><div class="tog-t"></div></div></div><div style="display:flex;align-items:center;justify-content:space-between;padding:11px 13px;background:rgba(0,0,0,.2);border-radius:8px;"><div><div style="font-size:13px;font-weight:600;">Cotización recibida de aseguradora</div><div style="font-size:11px;color:var(--g4);">Cuando una aseguradora responde el slip</div></div><div class="tog on" onclick="this.classList.toggle('on');this.classList.toggle('off')"><div class="tog-t"></div></div></div><div style="display:flex;align-items:center;justify-content:space-between;padding:11px 13px;background:rgba(0,0,0,.2);border-radius:8px;"><div><div style="font-size:13px;font-weight:600;">Discrepancia detectada en póliza</div><div style="font-size:11px;color:var(--g4);">Alerta inmediata — bloquea el despacho</div></div><div class="tog on" onclick="this.classList.toggle('on');this.classList.toggle('off')"><div class="tog-t"></div></div></div></div></div>
+    <!-- USUARIOS Y PERFILES -->
+    <div class="card" style="margin-top:13px;margin-bottom:13px;">
+      <div class="ctitle">Usuarios y perfiles de acceso</div>
+      <div style="font-size:12px;color:var(--g4);margin-bottom:12px;">Define el rol de cada usuario. Los comisionistas solo ven sus propias comisiones.</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 13px;background:rgba(0,0,0,.2);border-radius:8px;">
+          <div><div style="font-size:13px;font-weight:600;">Carlos Mendoza</div><div style="font-size:11px;color:var(--g4);">c.mendoza@broker.pe</div></div>
+          <select class="fi" style="padding:4px 10px;font-size:11px;width:auto;"><option>Ejecutivo comercial</option><option>Líder</option><option>Comisionista</option></select>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 13px;background:rgba(0,0,0,.2);border-radius:8px;">
+          <div><div style="font-size:13px;font-weight:600;">María Fernández</div><div style="font-size:11px;color:var(--g4);">m.fernandez@broker.pe</div></div>
+          <select class="fi" style="padding:4px 10px;font-size:11px;width:auto;"><option>Ejecutivo comercial</option><option selected>Líder</option><option>Comisionista</option></select>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 13px;background:rgba(0,0,0,.2);border-radius:8px;">
+          <div><div style="font-size:13px;font-weight:600;">Ana Torres</div><div style="font-size:11px;color:var(--g4);">a.torres@broker.pe</div></div>
+          <select class="fi" style="padding:4px 10px;font-size:11px;width:auto;"><option>Ejecutivo comercial</option><option>Líder</option><option>Comisionista</option></select>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 13px;background:rgba(0,0,0,.2);border-radius:8px;">
+          <div><div style="font-size:13px;font-weight:600;">Roberto Díaz</div><div style="font-size:11px;color:var(--g4);">r.diaz@comisionista.pe</div></div>
+          <select class="fi" style="padding:4px 10px;font-size:11px;width:auto;"><option>Ejecutivo comercial</option><option>Líder</option><option selected>Comisionista</option></select>
+        </div>
+      </div>
+      <button class="btn bg btn-sm" onclick="alert('Invitar nuevo usuario')">+ Invitar usuario</button>
+    </div>
+    <!-- COMISIONES BASE POR RAMO -->
+    <div class="card" style="margin-bottom:13px;">
+      <div class="ctitle">Comisiones base por ramo (% sobre comisión del broker)</div>
+      <div style="font-size:12px;color:var(--g4);margin-bottom:12px;">Porcentaje que recibe el comisionista sobre la comisión total del broker. Se puede sobreescribir por comisionista.</div>
+      <div class="g2">
+        <div class="field"><label>Riesgos generales (%)</label><input class="fi" value="45" type="number" min="0" max="100" id="com-generales"/></div>
+        <div class="field"><label>Vehículos (%)</label><input class="fi" value="40" type="number" min="0" max="100" id="com-vehiculos"/></div>
+        <div class="field"><label>Salud / EPS (%)</label><input class="fi" value="50" type="number" min="0" max="100" id="com-salud"/></div>
+        <div class="field"><label>RC / Construcción (%)</label><input class="fi" value="45" type="number" min="0" max="100" id="com-rc"/></div>
+        <div class="field"><label>Vida / SCTR (%)</label><input class="fi" value="35" type="number" min="0" max="100" id="com-vida"/></div>
+        <div class="field"><label>Cyber / Especiales (%)</label><input class="fi" value="50" type="number" min="0" max="100" id="com-cyber"/></div>
+      </div>
+    </div>
     <button class="btn bp" onclick="alert('✅ Cambios guardados')">Guardar cambios</button></div>
+  </div>
+
+
+  <!-- ██ SEGUIMIENTO PAGOS ██ -->
+  <div class="screen" id="s-cobros">
+    <div class="kgrid5" style="margin-bottom:13px;">
+      <div class="kpi" style="--kc:#6EE7B7"><div class="kl">Pólizas al día</div><div class="kv" id="cobros-aldia">34</div><div class="ks up">pagos confirmados</div></div>
+      <div class="kpi" style="--kc:#FCA5A5"><div class="kl">Vencidas sin pago</div><div class="kv" id="cobros-vencidas">2</div><div class="ks dn">acción requerida</div></div>
+      <div class="kpi" style="--kc:#FCD34D"><div class="kl">Vencen en 15 días</div><div class="kv" id="cobros-prox">5</div><div class="ks">sin confirmar</div></div>
+      <div class="kpi" style="--kc:var(--sky)"><div class="kl">Recordatorios enviados</div><div class="kv" id="cobros-recs">8</div><div class="ks up">este mes</div></div>
+      <div class="kpi" style="--kc:#C4B5FD"><div class="kl">Cuotas pendientes</div><div class="kv" id="cobros-cuotas-total">7</div><div class="ks">de 41 totales</div></div>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:13px;flex-wrap:wrap;gap:8px;">
+        <div class="ctitle" style="margin:0;">Pólizas y estado de pago</div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+          <select class="fi" style="padding:5px 10px;font-size:11px;width:auto;" id="cobros-filtro-estado" onchange="filterCobros()">
+            <option value="">Todos los estados</option>
+            <option value="vencida">Vencidas sin pago</option>
+            <option value="prox">Próximas a vencer</option>
+            <option value="pagado">Pagadas</option>
+          </select>
+          <select class="fi" style="padding:5px 10px;font-size:11px;width:auto;" id="cobros-filtro-ejec" onchange="filterCobros()">
+            <option value="">Todos los ejecutivos</option>
+            <option value="cm">Carlos Mendoza</option>
+            <option value="mf">María Fernández</option>
+            <option value="at">Ana Torres</option>
+          </select>
+          <button class="btn bg btn-sm" onclick="enviarRecordatoriosMasivos()">📧 Enviar recordatorios pendientes</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="tbl" id="tbl-cobros">
+          <thead><tr>
+            <th>Cliente</th><th>Ramo</th><th>Aseguradora</th><th>Ejecutivo</th>
+            <th style="text-align:right">Prima cuota</th>
+            <th style="text-align:center">Vcto. cuota</th>
+            <th style="text-align:center">Estado</th>
+            <th style="text-align:center">Recordatorio</th>
+            <th style="text-align:center">Pago ✓</th>
+          </tr></thead>
+          <tbody id="tbody-cobros"></tbody>
+        </table>
+      </div>
+      <div style="margin-top:10px;padding:10px 12px;background:rgba(37,99,235,.07);border-radius:8px;font-size:11px;color:var(--g4);">
+        ✦ Recordatorios automáticos enviados a los 5 y 15 días previos al vencimiento para pólizas sin pago confirmado
+      </div>
+    </div>
+  </div>
+
+  <!-- ██ ENDOSOS / CAMBIOS ██ -->
+  <div class="screen" id="s-endosos">
+    <div class="kgrid" style="margin-bottom:13px;">
+      <div class="kpi" style="--kc:#FCD34D"><div class="kl">Endosos pendientes</div><div class="kv" id="endosos-pendientes">3</div><div class="ks dn">esperando póliza actualizada</div></div>
+      <div class="kpi" style="--kc:#6EE7B7"><div class="kl">Cerrados este mes</div><div class="kv">7</div><div class="ks up">pólizas actualizadas</div></div>
+      <div class="kpi" style="--kc:var(--sky)"><div class="kl">Tiempo promedio</div><div class="kv">4.2d</div><div class="ks">días hábiles</div></div>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <div class="ctitle" style="margin:0;">Solicitudes de cambio / Endosos</div>
+        <div style="display:flex;gap:8px;">
+          <select class="fi" style="padding:5px 10px;font-size:11px;width:auto;" onchange="filterEndosos(this.value)">
+            <option value="">Todos</option>
+            <option value="pendiente">Pendientes</option>
+            <option value="cerrado">Cerrados</option>
+          </select>
+          <button class="btn bp btn-sm" onclick="showM('m-new-endoso')">+ Solicitar cambio</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;" id="lista-endosos">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ██ COMISIONISTAS ██ -->
+  <div class="screen" id="s-comisionistas">
+    <div class="kgrid5" style="margin-bottom:13px;">
+      <div class="kpi" style="--kc:var(--sky)"><div class="kl">Comisionistas activos</div><div class="kv">4</div></div>
+      <div class="kpi" style="--kc:#FCD34D"><div class="kl">Por pagar (mes)</div><div class="kv" id="com-por-pagar">S/ 8,420</div></div>
+      <div class="kpi" style="--kc:#6EE7B7"><div class="kl">Pagado (mes)</div><div class="kv">S/ 14,200</div></div>
+      <div class="kpi" style="--kc:#C4B5FD"><div class="kl">Pólizas vendidas</div><div class="kv">23</div></div>
+      <div class="kpi" style="--kc:var(--green2)"><div class="kl">Comisión total mes</div><div class="kv">S/ 22,620</div></div>
+    </div>
+    <div class="card" style="margin-bottom:13px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <div class="ctitle" style="margin:0;">Comisionistas</div>
+        <button class="btn bp btn-sm" onclick="showM('m-new-comisionista')">+ Agregar comisionista</button>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="tbl">
+          <thead><tr><th>Comisionista</th><th>Ramo principal</th><th style="text-align:center">% Comisión</th><th style="text-align:right">Vendido (mes)</th><th style="text-align:right">Comisión a pagar</th><th style="text-align:center">Estado</th><th style="text-align:center">Acción</th></tr></thead>
+          <tbody>
+            <tr><td><div style="font-weight:700;">Roberto Díaz</div><div style="font-size:11px;color:var(--g4);">r.diaz@comisionista.pe</div></td><td>Riesgos generales</td><td style="text-align:center;"><span class="pill pg">45%</span></td><td style="text-align:right;font-weight:700;">S/ 12,400</td><td style="text-align:right;font-weight:700;color:var(--amber2);">S/ 5,580</td><td style="text-align:center;"><span class="pill pa">Pendiente</span></td><td style="text-align:center;"><button class="btn bp btn-xs" onclick="showM('m-liquidar-com')">Liquidar</button></td></tr>
+            <tr><td><div style="font-weight:700;">Sandra Torres</div><div style="font-size:11px;color:var(--g4);">storres@vendedor.pe</div></td><td>Vehículos</td><td style="text-align:center;"><span class="pill pg">40%</span></td><td style="text-align:right;font-weight:700;">S/ 7,050</td><td style="text-align:right;font-weight:700;color:var(--amber2);">S/ 2,820</td><td style="text-align:center;"><span class="pill pa">Pendiente</span></td><td style="text-align:center;"><button class="btn bp btn-xs" onclick="showM('m-liquidar-com')">Liquidar</button></td></tr>
+            <tr><td><div style="font-weight:700;">Luis Vargas</div><div style="font-size:11px;color:var(--g4);">lvargas@freelance.pe</div></td><td>Salud / EPS</td><td style="text-align:center;"><span class="pill pg">50%</span></td><td style="text-align:right;font-weight:700;">S/ 4,800</td><td style="text-align:right;color:var(--green2);font-weight:700;">S/ 2,400 ✓</td><td style="text-align:center;"><span class="pill pg">Pagado</span></td><td style="text-align:center;"><button class="btn bg btn-xs" onclick="showM('m-detalle-com')">Ver detalle</button></td></tr>
+            <tr><td><div style="font-weight:700;">Ana Quiroz</div><div style="font-size:11px;color:var(--g4);">a.quiroz@email.com</div></td><td>Construcción</td><td style="text-align:center;"><span class="pill pg">45%</span></td><td style="text-align:right;font-weight:700;">S/ 9,300</td><td style="text-align:right;color:var(--green2);font-weight:700;">S/ 4,185 ✓</td><td style="text-align:center;"><span class="pill pg">Pagado</span></td><td style="text-align:center;"><button class="btn bg btn-xs" onclick="showM('m-detalle-com')">Ver detalle</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <div class="ctitle" style="margin:0;">Detalle de comisiones por póliza</div>
+        <div style="display:flex;gap:8px;">
+          <select class="fi" style="padding:5px 10px;font-size:11px;width:auto;" onchange="filterComisionistas(this.value)">
+            <option value="all">Todos los comisionistas</option>
+            <option value="rdiaz">Roberto Díaz</option>
+            <option value="storres">Sandra Torres</option>
+            <option value="lvargas">Luis Vargas</option>
+            <option value="aquiroz">Ana Quiroz</option>
+          </select>
+          <button class="btn bg btn-sm" onclick="alert('📊 Exportando reporte PDF...')">⬇ Exportar PDF</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="tbl" id="tbl-com-detalle">
+          <thead><tr><th>Cliente</th><th>Ramo</th><th>Aseguradora</th><th style="text-align:right">Prima</th><th style="text-align:right">Comisión broker</th><th style="text-align:center">% Comisionista</th><th style="text-align:right">A pagar S/</th><th style="text-align:right">A pagar $</th><th style="text-align:center">Cuota pagada</th></tr></thead>
+          <tbody id="tbody-com-detalle">
+            <tr data-com="rdiaz"><td style="font-weight:700;">Minera Los Andes</td><td>Multirriesgo</td><td>Rímac</td><td style="text-align:right;">S/ 36,250</td><td style="text-align:right;color:var(--green2);">S/ 4,350</td><td style="text-align:center;">45%</td><td style="text-align:right;font-weight:700;color:var(--amber2);">S/ 1,957</td><td style="text-align:right;font-size:11px;color:var(--g4);">$ 522</td><td style="text-align:center;"><span class="pill pr">Pendiente</span></td></tr>
+            <tr data-com="rdiaz"><td style="font-weight:700;">Grupo Palmas</td><td>Multirriesgo</td><td>Rímac</td><td style="text-align:right;">S/ 18,900</td><td style="text-align:right;color:var(--green2);">S/ 2,268</td><td style="text-align:center;">45%</td><td style="text-align:right;font-weight:700;color:var(--amber2);">S/ 1,021</td><td style="text-align:right;font-size:11px;color:var(--g4);">$ 272</td><td style="text-align:center;"><span class="pill pr">Pendiente</span></td></tr>
+            <tr data-com="storres"><td style="font-weight:700;">Transportes Rápidos</td><td>Flota vehicular</td><td>Mapfre</td><td style="text-align:right;">S/ 28,900</td><td style="text-align:right;color:var(--green2);">S/ 3,468</td><td style="text-align:center;">40%</td><td style="text-align:right;font-weight:700;color:var(--amber2);">S/ 1,387</td><td style="text-align:right;font-size:11px;color:var(--g4);">$ 370</td><td style="text-align:center;"><span class="pill pr">Pendiente</span></td></tr>
+            <tr data-com="lvargas"><td style="font-weight:700;">Clínica Santa María</td><td>Salud grupal</td><td>Pacífico</td><td style="text-align:right;">S/ 67,500</td><td style="text-align:right;color:var(--green2);">S/ 8,100</td><td style="text-align:center;">50%</td><td style="text-align:right;color:var(--green2);font-weight:700;">S/ 4,050 ✓</td><td style="text-align:right;font-size:11px;color:var(--g4);">$ 1,080</td><td style="text-align:center;"><span class="pill pg">Pagado</span></td></tr>
+            <tr data-com="aquiroz"><td style="font-weight:700;">Textil Andina</td><td>3D Crime</td><td>Pacífico</td><td style="text-align:right;">S/ 23,950</td><td style="text-align:right;color:var(--green2);">S/ 2,874</td><td style="text-align:center;">45%</td><td style="text-align:right;color:var(--green2);font-weight:700;">S/ 1,293 ✓</td><td style="text-align:right;font-size:11px;color:var(--g4);">$ 345</td><td style="text-align:center;"><span class="pill pg">Pagado</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
   </div><!-- /content -->
@@ -911,6 +1080,134 @@ textarea.fi{resize:none;}
   </div>
 </div>
 
+<!-- MODAL: NUEVO ENDOSO -->
+<div id="m-new-endoso" class="modal-bg" style="display:none;" onclick="if(event.target===this)hideM('m-new-endoso')">
+  <div class="modal" style="max-width:560px;">
+    <div class="modal-title">Solicitar cambio / Endoso</div>
+    <div style="display:flex;flex-direction:column;gap:11px;margin-bottom:15px;">
+      <div class="g2">
+        <div class="field"><label>Cliente *</label><select class="fi"><option>Minera Los Andes SAC</option><option>Transportes Rápidos SA</option><option>Clínica Santa María EIRL</option><option>Grupo Palmas SAC</option><option>Textil Andina SAC</option></select></div>
+        <div class="field"><label>Póliza vigente *</label><select class="fi"><option>Multirriesgo – Rímac (P-2026-MLO-00142)</option><option>Flota vehicular – Mapfre</option><option>RC Patronal – La Positiva</option></select></div>
+      </div>
+      <div class="field"><label>Tipo de cambio *</label>
+        <select class="fi" onchange="mostrarCamposEndoso(this.value)">
+          <option value="">Seleccionar...</option>
+          <option value="dir">Cambio de dirección / local asegurado</option>
+          <option value="veh">Inclusión / exclusión de vehículos (adjunto Excel)</option>
+          <option value="trab">Actualización de N° trabajadores</option>
+          <option value="val">Actualización de valores declarados</option>
+          <option value="cob">Ampliación de cobertura o sublímite</option>
+          <option value="otro">Otro cambio</option>
+        </select>
+      </div>
+      <div id="endoso-dir" style="display:none;">
+        <div class="field"><label>Dirección anterior (en póliza)</label><input class="fi" placeholder="Dirección actual en la póliza vigente"/></div>
+        <div class="field"><label>Dirección nueva *</label><input class="fi" placeholder="Nueva dirección del riesgo"/></div>
+      </div>
+      <div id="endoso-veh" style="display:none;">
+        <div style="padding:12px;background:rgba(37,99,235,.08);border:1px solid rgba(96,165,250,.2);border-radius:8px;margin-bottom:8px;font-size:12px;color:var(--sky);">Para flotas, adjunta Excel con columnas: Placa, Marca, Año, Uso, Suma asegurada</div>
+        <div class="dz" onclick="alert('Seleccionar Excel de flota')" style="margin-bottom:8px;">📎 Adjuntar Excel con lista de vehículos actualizada</div>
+        <div class="field"><label>Notas (inclusiones / exclusiones)</label><textarea class="fi" style="height:48px;" placeholder="Ej: Incluir ABC-123. Excluir XYZ-789 (baja)"></textarea></div>
+      </div>
+      <div id="endoso-trab" style="display:none;">
+        <div class="g2">
+          <div class="field"><label>N° trabajadores anterior</label><input class="fi" type="number" placeholder="0"/></div>
+          <div class="field"><label>N° trabajadores nuevo *</label><input class="fi" type="number" placeholder="0"/></div>
+        </div>
+      </div>
+      <div id="endoso-val" style="display:none;">
+        <div class="g2">
+          <div class="field"><label>Bien a actualizar</label><select class="fi"><option>Edificaciones</option><option>Maquinaria</option><option>Stock</option><option>Equipo electrónico</option></select></div>
+          <div class="field"><label>Nuevo valor declarado</label><input class="fi" placeholder="S/ 0"/></div>
+        </div>
+      </div>
+      <div id="endoso-cob" style="display:none;">
+        <div class="field"><label>Cobertura a ampliar</label><input class="fi" placeholder="Ej: RC Patronal, Lucro cesante..."/></div>
+        <div class="field"><label>Nuevo sublímite / condición</label><input class="fi" placeholder="Ej: S/ 50,000 por evento"/></div>
+      </div>
+      <div id="endoso-otro" style="display:none;">
+        <div class="field"><label>Descripción del cambio *</label><textarea class="fi" style="height:72px;" placeholder="Describe el cambio a solicitar a la aseguradora..."></textarea></div>
+      </div>
+      <div class="field"><label>Urgencia</label>
+        <select class="fi"><option>Normal (5 días hábiles)</option><option>Urgente (48 horas)</option></select>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;"><button class="btn bp" onclick="crearEndoso()">Enviar solicitud a aseguradora</button><button class="btn bg" onclick="hideM('m-new-endoso')">Cancelar</button></div>
+  </div>
+</div>
+
+<!-- MODAL: ADJUNTAR PÓLIZA ENDOSADA -->
+<div id="m-adjuntar-endoso" class="modal-bg" style="display:none;" onclick="if(event.target===this)hideM('m-adjuntar-endoso')">
+  <div class="modal">
+    <div class="modal-title">Adjuntar póliza actualizada</div>
+    <div style="margin-bottom:13px;font-size:12px;color:var(--sky);background:rgba(37,99,235,.08);border:1px solid rgba(96,165,250,.2);border-radius:8px;padding:11px;">✦ La IA validará el endoso contra la solicitud original automáticamente</div>
+    <div class="dz" onclick="alert('Seleccionar PDF con endoso')" style="margin-bottom:14px;"><div style="font-size:24px;opacity:.4;margin-bottom:6px;">📋</div><div style="font-size:13px;font-weight:600;color:#CBD5E1;">Arrastra la póliza actualizada o haz clic</div></div>
+    <div style="display:flex;gap:8px;"><button class="btn bp" onclick="confirmarEndoso(this)">Confirmar endoso ✓</button><button class="btn bg" onclick="hideM('m-adjuntar-endoso')">Cancelar</button></div>
+  </div>
+</div>
+
+<!-- MODAL: NUEVO COMISIONISTA -->
+<div id="m-new-comisionista" class="modal-bg" style="display:none;" onclick="if(event.target===this)hideM('m-new-comisionista')">
+  <div class="modal">
+    <div class="modal-title">Agregar comisionista</div>
+    <div style="display:flex;flex-direction:column;gap:11px;margin-bottom:15px;">
+      <div class="g2">
+        <div class="field"><label>Nombre completo *</label><input class="fi" placeholder="Nombre del vendedor"/></div>
+        <div class="field"><label>DNI</label><input class="fi" placeholder="12345678"/></div>
+        <div class="field"><label>Correo *</label><input class="fi" placeholder="vendedor@email.com"/></div>
+        <div class="field"><label>Teléfono</label><input class="fi" placeholder="+51 XXX XXX XXX"/></div>
+      </div>
+      <div style="background:rgba(0,0,0,.2);border-radius:8px;padding:13px;">
+        <div style="font-size:12px;font-weight:700;margin-bottom:10px;">% de comisión sobre comisión del broker</div>
+        <div class="g2">
+          <div class="field"><label>Riesgos generales</label><input class="fi" type="number" value="45" min="0" max="100"/></div>
+          <div class="field"><label>Vehículos</label><input class="fi" type="number" value="40" min="0" max="100"/></div>
+          <div class="field"><label>Salud / EPS</label><input class="fi" type="number" value="50" min="0" max="100"/></div>
+          <div class="field"><label>RC / Construcción</label><input class="fi" type="number" value="45" min="0" max="100"/></div>
+        </div>
+      </div>
+      <div class="field"><label>Activación de comisión</label>
+        <select class="fi"><option>Al pago de la primera cuota (recomendado)</option><option>Al pago total de la prima</option></select>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;"><button class="btn bp" onclick="alert('✅ Comisionista agregado');hideM('m-new-comisionista')">Guardar</button><button class="btn bg" onclick="hideM('m-new-comisionista')">Cancelar</button></div>
+  </div>
+</div>
+
+<!-- MODAL: LIQUIDAR COMISIÓN -->
+<div id="m-liquidar-com" class="modal-bg" style="display:none;" onclick="if(event.target===this)hideM('m-liquidar-com')">
+  <div class="modal">
+    <div class="modal-title">Liquidar comisión — Roberto Díaz</div>
+    <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:8px;padding:14px;margin-bottom:14px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div><div style="font-size:10px;color:var(--g4);margin-bottom:3px;">Comisiones a pagar</div><div style="font-size:22px;font-weight:800;color:var(--amber2);">S/ 5,580</div></div>
+        <div><div style="font-size:10px;color:var(--g4);margin-bottom:3px;">Equivalente USD</div><div style="font-size:22px;font-weight:800;color:var(--amber2);">$ 1,488</div></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:11px;margin-bottom:15px;">
+      <div class="g2">
+        <div class="field"><label>Fecha de pago</label><input class="fi" value="30/04/2026"/></div>
+        <div class="field"><label>Método</label><select class="fi"><option>Transferencia bancaria</option><option>Efectivo</option><option>Cheque</option></select></div>
+      </div>
+      <div class="field"><label>N° operación / referencia</label><input class="fi" placeholder="Opcional"/></div>
+    </div>
+    <div style="display:flex;gap:8px;"><button class="btn bp" onclick="alert('✅ Comisión liquidada y registrada.');hideM('m-liquidar-com')">Confirmar pago ✓</button><button class="btn bg" onclick="hideM('m-liquidar-com')">Cancelar</button></div>
+  </div>
+</div>
+
+<!-- MODAL: DETALLE COMISIÓN -->
+<div id="m-detalle-com" class="modal-bg" style="display:none;" onclick="if(event.target===this)hideM('m-detalle-com')">
+  <div class="modal">
+    <div class="modal-title">Detalle de comisión — Luis Vargas</div>
+    <div style="background:rgba(5,150,105,.08);border:1px solid rgba(16,185,129,.2);border-radius:8px;padding:14px;margin-bottom:14px;display:flex;gap:20px;">
+      <div><div style="font-size:10px;color:var(--g4);">Total pagado</div><div style="font-size:20px;font-weight:800;color:var(--green2);">S/ 2,400</div></div>
+      <div><div style="font-size:10px;color:var(--g4);">Fecha de pago</div><div style="font-size:20px;font-weight:800;">22/04/2026</div></div>
+      <div><div style="font-size:10px;color:var(--g4);">Método</div><div style="font-size:16px;font-weight:700;">Transferencia</div></div>
+    </div>
+    <button class="btn bg" style="width:100%;" onclick="hideM('m-detalle-com')">Cerrar</button>
+  </div>
+</div>
+
 <script>
 // ── DATA ─────────────────────────────────────────────────────
 const CLIENTS = {
@@ -958,6 +1255,9 @@ const CFG={
   oportunidades:{t:'Oportunidades IA',s:'Cross-sell y up-sell detectados por IA en tu cartera',a:'<button class="btn bg" onclick="alert(\'Excel exportado\')">⬇ Exportar Excel</button>'},
   reportes:{t:'Reportes y analítica',s:'12 meses · BrokerPe SAC',a:'<button class="btn bg" onclick="alert(\'PDF exportado\')">⬇ Exportar PDF</button>'},
   config:{t:'Configuración',s:'Perfil, notificaciones y sistema',a:'<button class="btn bp" onclick="alert(\'✅ Guardado\')">Guardar cambios</button>'},
+  cobros:{t:'Seguimiento de pagos',s:'Control de cuotas, vencimientos y recordatorios automáticos',a:'<button class="btn bp" onclick="enviarRecordatoriosMasivos()">📧 Enviar recordatorios pendientes</button>'},
+  endosos:{t:'Endosos y cambios',s:'Modificaciones en pólizas vigentes · solicitudes y seguimiento',a:'<button class="btn bp" onclick="showM(\'m-new-endoso\')">+ Solicitar cambio</button>'},
+  comisionistas:{t:'Comisionistas',s:'Comisiones, liquidaciones y reportes por vendedor',a:'<button class="btn bg" onclick="alert(\'PDF exportado\')">⬇ Exportar reporte</button> <button class="btn bp" onclick="showM(\'m-new-comisionista\')">+ Agregar comisionista</button>'},
 };
 
 let currentClient = 'ml';
@@ -974,6 +1274,9 @@ function go(id){
   document.getElementById('tb-s').textContent=c.s||'';
   document.getElementById('tb-a').innerHTML=c.a||'';
   document.getElementById('content').scrollTop=0;
+  // Lazy render new screens
+  if(id==='cobros'){renderCobros(COBROS_DATA);updateCobroKPIs();}
+  if(id==='endosos'){renderEndosos(null);}
 }
 
 function showM(id){document.getElementById(id).style.display='flex';}
@@ -1699,10 +2002,218 @@ function selectAseg(aseg){
   });
 }
 
+// ── COBROS DATA ──────────────────────────────────────────────
+const COBROS_DATA = [
+  {id:'c1', cliente:'Minera Los Andes SAC', ramo:'Multirriesgo', aseg:'Rímac', ejec:'cm', ejec_nombre:'Carlos Mendoza', prima:'S/ 9,062', vcto:'Vencida hace 8 días', estado:'vencida', email:'p.solano@minelosandes.pe', pagado:false},
+  {id:'c2', cliente:'Smart Cast Trading SAC', ramo:'3D Deshonestidad', aseg:'Pacífico', ejec:'at', ejec_nombre:'Ana Torres', prima:'S/ 3,993', vcto:'Vencida hace 3 días', estado:'vencida', email:'psalas@smartcast.pe', pagado:false},
+  {id:'c3', cliente:'Transportes Rápidos SA', ramo:'Flota vehicular', aseg:'Mapfre', ejec:'mf', ejec_nombre:'María Fernández', prima:'S/ 5,100', vcto:'Vence en 5 días', estado:'prox', email:'rtorres@transprapidos.pe', pagado:false},
+  {id:'c4', cliente:'Clínica Santa María EIRL', ramo:'RC Patronal', aseg:'La Positiva', ejec:'cm', ejec_nombre:'Carlos Mendoza', prima:'S/ 2,450', vcto:'Vence en 12 días', estado:'prox', email:'lparodi@clinicasantamaria.pe', pagado:false},
+  {id:'c5', cliente:'Grupo Palmas SAC', ramo:'Multirriesgo', aseg:'Rímac', ejec:'mf', ejec_nombre:'María Fernández', prima:'S/ 4,333', vcto:'Pagó el 18/04/26', estado:'pagado', email:'mquispe@grupopalmas.pe', pagado:true},
+  {id:'c6', cliente:'Textil Andina SAC', ramo:'3D Deshonestidad', aseg:'Pacífico', ejec:'at', ejec_nombre:'Ana Torres', prima:'S/ 2,649', vcto:'Pagó el 15/04/26', estado:'pagado', email:'clopez@textilandina.pe', pagado:true},
+  {id:'c7', cliente:'Minera Los Andes SAC', ramo:'RC Patronal', aseg:'La Positiva', ejec:'cm', ejec_nombre:'Carlos Mendoza', prima:'S/ 1,633', vcto:'Pagó el 10/04/26', estado:'pagado', email:'p.solano@minelosandes.pe', pagado:true},
+];
+
+function vctoColor(estado){
+  if(estado==='vencida') return '#FCA5A5';
+  if(estado==='prox') return '#FCD34D';
+  return 'var(--g4)';
+}
+function vctoWeight(estado){return estado!=='pagado'?'700':'400';}
+
+function renderCobros(data){
+  const tbody = document.getElementById('tbody-cobros');
+  if(!tbody) return;
+  if(!data.length){
+    tbody.innerHTML='<tr><td colspan="9" style="text-align:center;color:var(--g4);padding:24px;">No hay registros para el filtro seleccionado</td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.map(r=>`
+    <tr id="cobro-row-${r.id}" data-estado="${r.estado}" data-ejec="${r.ejec}">
+      <td style="font-weight:700;">${r.cliente}</td>
+      <td>${r.ramo}</td>
+      <td>${r.aseg}</td>
+      <td style="font-size:11px;color:var(--g4);">${r.ejec_nombre}</td>
+      <td style="text-align:right;">${r.prima}</td>
+      <td style="text-align:center;"><span style="color:${vctoColor(r.estado)};font-size:11px;font-weight:${vctoWeight(r.estado)};">${r.vcto}</span></td>
+      <td style="text-align:center;" id="cobro-pill-${r.id}">
+        ${r.pagado
+          ? '<span class="pill pg">Pagado ✓</span>'
+          : r.estado==='vencida'
+            ? '<span class="pill pr">Sin pago</span>'
+            : '<span class="pill pa">Pendiente</span>'}
+      </td>
+      <td style="text-align:center;" id="cobro-btn-rec-${r.id}">
+        ${r.pagado
+          ? '<span style="font-size:11px;color:var(--g4);">—</span>'
+          : `<button class="btn bp btn-xs" onclick="enviarRecordatorioUno('${r.id}','${r.email}')">📧 Enviar</button>`}
+      </td>
+      <td style="text-align:center;">
+        <input type="checkbox" ${r.pagado?'checked disabled':''} 
+          style="width:18px;height:18px;cursor:${r.pagado?'default':'pointer'};accent-color:var(--green2);"
+          onchange="marcarPago('${r.id}',this)">
+      </td>
+    </tr>`).join('');
+}
+
+function filterCobros(){
+  const estado = document.getElementById('cobros-filtro-estado').value;
+  const ejec   = document.getElementById('cobros-filtro-ejec').value;
+  let data = COBROS_DATA;
+  if(estado) data = data.filter(r=>r.estado===estado);
+  if(ejec)   data = data.filter(r=>r.ejec===ejec);
+  renderCobros(data);
+}
+
+function marcarPago(id, cb){
+  const r = COBROS_DATA.find(x=>x.id===id);
+  if(!r) return;
+  if(cb.checked){
+    r.pagado = true;
+    r.estado = 'pagado';
+    r.vcto   = 'Pagó el ' + new Date().toLocaleDateString('es-PE',{day:'2-digit',month:'2-digit',year:'2-digit'});
+    // Update pill
+    const pill = document.getElementById('cobro-pill-'+id);
+    if(pill) pill.innerHTML = '<span class="pill pg">Pagado ✓</span>';
+    // Remove reminder button
+    const btnRec = document.getElementById('cobro-btn-rec-'+id);
+    if(btnRec) btnRec.innerHTML = '<span style="font-size:11px;color:var(--g4);">—</span>';
+    // Update vcto cell
+    const row = document.getElementById('cobro-row-'+id);
+    if(row){
+      row.dataset.estado='pagado';
+      const vctoCell = row.querySelectorAll('td')[5];
+      if(vctoCell) vctoCell.innerHTML = `<span style="color:var(--g4);font-size:11px;">${r.vcto}</span>`;
+    }
+    cb.disabled = true;
+    // Update KPI counts
+    updateCobroKPIs();
+    // Toast
+    showToast('✓ Pago registrado: ' + r.cliente, 'green');
+  }
+}
+
+function updateCobroKPIs(){
+  const aldia   = COBROS_DATA.filter(r=>r.pagado).length;
+  const vencidas = COBROS_DATA.filter(r=>r.estado==='vencida').length;
+  const prox    = COBROS_DATA.filter(r=>r.estado==='prox').length;
+  const el = id => document.getElementById(id);
+  if(el('cobros-aldia'))    el('cobros-aldia').textContent    = aldia;
+  if(el('cobros-vencidas')) el('cobros-vencidas').textContent = vencidas;
+  if(el('cobros-prox'))     el('cobros-prox').textContent     = prox;
+  if(el('nb-cobros'))       el('nb-cobros').textContent       = vencidas;
+  if(!vencidas && el('nb-cobros')) el('nb-cobros').style.display='none';
+}
+
+function enviarRecordatorioUno(id, email){
+  const r = COBROS_DATA.find(x=>x.id===id);
+  if(!r) return;
+  showToast('📧 Recordatorio enviado a ' + email, 'blue');
+}
+
+function enviarRecordatoriosMasivos(){
+  const pendientes = COBROS_DATA.filter(r=>!r.pagado);
+  showToast('📧 ' + pendientes.length + ' recordatorios enviados a clientes pendientes', 'blue');
+}
+
+// ── ENDOSOS DATA ──────────────────────────────────────────────
+let ENDOSOS = [
+  {id:'e1',cliente:'Minera Los Andes SAC',poliza:'Multirriesgo – Rímac',numero:'E-2026-0041',fecha:'20/04/26',ejec:'Carlos Mendoza',tipo:'Cambio de dirección / local',detalle:'Anterior: Av. Industrial 1240, Cerro Colorado, Arequipa<br>Nueva: Av. Industrial 1240 + Almacén Jr. Los Pinos 234, Arequipa',estado:'pendiente',aseg:'Rímac'},
+  {id:'e2',cliente:'Transportes Rápidos SA',poliza:'Flota vehicular – Mapfre',numero:'E-2026-0039',fecha:'18/04/26',ejec:'María Fernández',tipo:'Inclusión / exclusión de vehículos',detalle:'Inclusión 3 unidades nuevas. Exclusión placa RMX-459 (baja). Ver adjunto Excel.',estado:'pendiente',aseg:'Mapfre'},
+  {id:'e3',cliente:'Textil Andina SAC',poliza:'Multirriesgo – La Positiva',numero:'E-2026-0037',fecha:'17/04/26',ejec:'Ana Torres',tipo:'Actualización de N° trabajadores',detalle:'Pendiente confirmación de La Positiva.',estado:'pendiente',aseg:'La Positiva'},
+  {id:'e4',cliente:'Clínica Santa María EIRL',poliza:'RC Patronal – La Positiva',numero:'E-2026-0036',fecha:'16/04/26',ejec:'Carlos Mendoza',tipo:'N° trabajadores: 180 → 215',detalle:'Actualizado. Prima ajustada: S/ 2,450 (antes S/ 2,100)',estado:'cerrado',aseg:'La Positiva'},
+  {id:'e5',cliente:'Grupo Palmas SAC',poliza:'Multirriesgo – Rímac',numero:'E-2026-0031',fecha:'10/04/26',ejec:'María Fernández',tipo:'Valores declarados: stock +S/80,000',detalle:'Endoso emitido y confirmado por Rímac.',estado:'cerrado',aseg:'Rímac'},
+];
+
+function renderEndosos(filtro){
+  const lista = document.getElementById('lista-endosos');
+  if(!lista) return;
+  const data = filtro ? ENDOSOS.filter(e=>e.estado===filtro) : ENDOSOS;
+  if(!data.length){
+    lista.innerHTML='<div style="text-align:center;color:var(--g4);padding:24px;">No hay endosos para el filtro seleccionado</div>';
+    return;
+  }
+  lista.innerHTML = data.map(e=>{
+    const isPend = e.estado==='pendiente';
+    return `<div style="background:${isPend?'rgba(245,158,11,.07)':'rgba(5,150,105,.06)'};border:1px solid ${isPend?'rgba(245,158,11,.25)':'rgba(16,185,129,.18)'};border-radius:10px;padding:14px;" id="endoso-card-${e.id}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+        <div>
+          <div style="font-weight:700;margin-bottom:2px;">${e.cliente} — ${e.poliza}</div>
+          <div style="font-size:11px;color:var(--g4);">Endoso ${e.numero} · Solicitado ${e.fecha} · ${e.ejec}</div>
+        </div>
+        <span class="pill ${isPend?'pa':'pg'}">${isPend?'Póliza pendiente':'✓ Cerrado'}</span>
+      </div>
+      <div style="background:rgba(0,0,0,.2);border-radius:7px;padding:10px;margin-bottom:10px;font-size:12px;">
+        <div style="font-weight:700;margin-bottom:4px;color:${isPend?'var(--amber2)':'var(--green2)'};">${e.tipo}</div>
+        <div style="color:var(--g4);">${e.detalle}</div>
+      </div>
+      ${isPend?`<div style="display:flex;gap:8px;align-items:center;">
+        <span style="font-size:11px;color:var(--amber2);">⏳ Esperando póliza de ${e.aseg}</span>
+        <button class="btn bp btn-xs" onclick="showM('m-adjuntar-endoso');window._endosoActivo='${e.id}'">Adjuntar póliza actualizada</button>
+        <button class="btn bg btn-xs" onclick="showToast('📧 Recordatorio enviado a ${e.aseg}','blue')">Recordar a aseguradora</button>
+      </div>`:''}
+    </div>`;
+  }).join('');
+  // Update KPI
+  const pend = ENDOSOS.filter(e=>e.estado==='pendiente').length;
+  const el = document.getElementById('endosos-pendientes');
+  if(el) el.textContent = pend;
+  const nb = document.getElementById('nb-endosos');
+  if(nb){ nb.textContent=pend; nb.style.display=pend?'':'none'; }
+}
+
+function filterEndosos(val){ renderEndosos(val||null); }
+
+function crearEndoso(){
+  const nuevoId = 'e'+(ENDOSOS.length+1);
+  ENDOSOS.unshift({id:nuevoId,cliente:'Cliente seleccionado',poliza:'Póliza seleccionada',numero:'E-2026-'+(40+ENDOSOS.length).toString().padStart(4,'0'),fecha:new Date().toLocaleDateString('es-PE',{day:'2-digit',month:'2-digit',year:'2-digit'}),ejec:'Carlos Mendoza',tipo:'Cambio solicitado',detalle:'Solicitud enviada a aseguradora.',estado:'pendiente',aseg:'Aseguradora'});
+  hideM('m-new-endoso');
+  renderEndosos(null);
+  showToast('✅ Solicitud enviada a la aseguradora. Endoso en estado PENDIENTE.','green');
+}
+
+function confirmarEndoso(btn){
+  const id = window._endosoActivo;
+  if(id){
+    const e = ENDOSOS.find(x=>x.id===id);
+    if(e){ e.estado='cerrado'; e.detalle='Endoso confirmado y póliza actualizada.'; }
+    renderEndosos(null);
+  }
+  hideM('m-adjuntar-endoso');
+  showToast('✅ Póliza adjuntada. Endoso marcado como cerrado.','green');
+}
+
+function mostrarCamposEndoso(tipo){
+  ['dir','veh','trab','val','cob','otro'].forEach(t=>{
+    const el=document.getElementById('endoso-'+t);
+    if(el) el.style.display=(t===tipo)?'block':'none';
+  });
+}
+
+// ── COMISIONISTAS FILTER ──────────────────────────────────────
+function filterComisionistas(val){
+  const rows = document.querySelectorAll('#tbody-com-detalle tr[data-com]');
+  rows.forEach(r=>{
+    r.style.display = (val==='all' || r.dataset.com===val) ? '' : 'none';
+  });
+}
+
+// ── TOAST ─────────────────────────────────────────────────────
+function showToast(msg, type){
+  const colors = {green:'#059669',blue:'#1D4ED8',amber:'#D97706',red:'#DC2626'};
+  const t = document.createElement('div');
+  t.style.cssText = `position:fixed;bottom:24px;right:24px;background:${colors[type]||colors.green};color:#fff;padding:13px 20px;border-radius:10px;font-size:13px;font-weight:700;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.4);max-width:360px;`;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(), 3200);
+}
+
 // ── INIT ──────────────────────────────────────────────────────
 renderClientDetail('ml');
 updateDashChart('12m');
 updateLider();
+renderCobros(COBROS_DATA);
+updateCobroKPIs();
+renderEndosos(null);
 </script>
 </body>
 </html>
